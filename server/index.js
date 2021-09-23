@@ -1,11 +1,14 @@
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 
+//Import Route
+const authRouter = require("./routes/auth");
+
 require("dotenv").config();
-const app = express();
 const PORT = 5000;
 
-//Connect DB
+//Connect to DB
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.DB_CONNECT, {
@@ -20,7 +23,10 @@ const connectDB = async () => {
 };
 connectDB();
 
-//route
-app.get("/", (req, res) => res.send("Hello world!"));
+//Middleware
+app.use(express.json());
+
+//Routes Middleware
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => console.log(`Server started on post ${5000}`));

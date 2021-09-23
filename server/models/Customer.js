@@ -1,0 +1,46 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const CustomerSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      min: 20,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+    },
+    cmt: {
+      type: String,
+      min: 12,
+    },
+    gender: {
+      type: String,
+    },
+    birthDay: {
+      type: Date,
+    },
+    note: {
+      type: String,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model("customers", CustomerSchema);

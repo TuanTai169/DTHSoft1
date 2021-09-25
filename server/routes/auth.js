@@ -1,9 +1,34 @@
 const router = require("express").Router()
 const argon2 = require("argon2")
 const jwt = require("jsonwebtoken")
+const verifyToken = require("../middleware/authorization")
 const User = require("../models/User")
 
 require("dotenv").config()
+
+// @route GET api/auth
+// @decs check if user is logged in
+// @access public
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password")
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      })
+    res.json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
 
 // @route POST api/auth/register
 // @decs Register user
@@ -61,17 +86,9 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body
 
-  //Simple validation
-  if (!email || !password)
-    return res.status(400).json({
-      success: false,
-      message: "Please fill all mandatory fields",
-    })
-
   try {
     // Check for existing email
     const user = await User.findOne({ email })
-
     if (!user)
       return res.status(400).json({
         success: false,

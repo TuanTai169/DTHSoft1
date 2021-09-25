@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
+const cors = require("cors")
 
 //Import Route
 const authRouter = require("./routes/auth")
@@ -26,9 +27,10 @@ connectDB()
 
 //Middleware
 app.use(express.json())
+app.use(cors())
 
 //Routes Middleware
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 
-app.listen(PORT, () => console.log(`Server started on post ${5000}`))
+app.listen(PORT, () => console.log(`Server started on post ${PORT}`))

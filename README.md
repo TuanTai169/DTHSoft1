@@ -4,8 +4,8 @@
 ## Setup
 1. Clone project
 2. npm install
-3. Nếu thao tác Front-end: cd client ==> npm start
-4. Nếu thao tác ở Back-end: cd server ==> npm i nodemon --save-dev ==> npm run server
+3. Nếu thao tác Front-end: cd client => npm start
+4. Nếu thao tác ở Back-end: cd server => npm i nodemon --save-dev => npm run server
 
 ## LOGIN
 #### ADMIN

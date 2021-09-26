@@ -83,7 +83,7 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
 // @route PUT api/user/
 // @decs UPDATE user
 // @access Private
-router.put(`/:id`, verifyToken, checkManager, async (req, res) => {
+router.put(`/update/:id`, verifyToken, checkManager, async (req, res) => {
   const { name, email, phone, address, image, isActive, roles } = req.body
 
   //Simple Validation
@@ -100,7 +100,7 @@ router.put(`/:id`, verifyToken, checkManager, async (req, res) => {
       phone: phone || "",
       address: address || "",
       image: image || "",
-      isActive: isActive || true,
+      isActive: isActive,
       roles: roles || "EMPLOYEE",
     }
 
@@ -123,4 +123,34 @@ router.put(`/:id`, verifyToken, checkManager, async (req, res) => {
     })
   }
 })
+
+// @route DELETE api/user/
+// @decs delete user
+// @access Private
+router.put(`/delete/:id`, verifyToken, checkManager, async (req, res) => {
+  try {
+    const userDeleteCondition = { _id: req.params.id }
+    const deleted = { isActive: false }
+    let deletedUser = await User.findOneAndUpdate(
+      userDeleteCondition,
+      deleted,
+      {
+        new: true,
+      }
+    )
+
+    res.json({
+      success: true,
+      message: "User deleted successfully",
+      deletedUser,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
+
 module.exports = router

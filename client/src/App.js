@@ -1,10 +1,19 @@
 import "./App.css"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import HomePage from "./components/HomePage/HomePage"
+import AuthContextProvider from "./contexts/AuthContext"
+import LoginPage from "./components/Login/LoginPage"
 
 function App() {
   return (
-    <div className="App">
-      <h1>DTH Shop</h1>
-    </div>
+    <AuthContextProvider>
+      <Router>
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/dashboard" component={HomePage} />
+        </Switch>
+      </Router>
+    </AuthContextProvider>
   )
 }
 

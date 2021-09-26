@@ -1,15 +1,19 @@
 import "./App.css"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import HomePage from "./components/HomePage/HomePage"
+import AuthContextProvider from "./contexts/AuthContext"
 import LoginPage from "./components/Login/LoginPage"
+
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" component={HomePage} />
-        <Route path="/login" component={LoginPage} />
-      </Switch>
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/dashboard" component={HomePage} />
+        </Switch>
+      </Router>
+    </AuthContextProvider>
   )
 }
 

@@ -1,5 +1,22 @@
 # DTHSoft1
-Tiểu luận chuyên ngành
+TIỂU LUẬN CHUYÊN NGÀNH
 
 ## LOGIN
-all user password: 12345678
+1. ADMIN
+{
+  "email": "admin@gmail.com",
+  "password":"12345678"
+}
+
+2. MANAGER
+{
+  "email": "manager@gmail.com",
+  "password":"12345678"
+}
+
+2. EMPLOYEE
+{
+  "email": "employee@gmail.com",
+  "password":"12345678"
+}
+

@@ -1,12 +1,5 @@
 # DTHSoft1
 
-<<<<<<< HEAD
-
-TIEU LUAN CHUYEN NGANH
-
-## LOGIN
-
-=======
 **TIỂU LUẬN CHUYÊN NGÀNH**
 
 ## Setup

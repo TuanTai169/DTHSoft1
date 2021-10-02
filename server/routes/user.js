@@ -7,33 +7,10 @@ const { checkAdmin, checkManager } = require("../middleware/authentication")
 const verifyToken = require("../middleware/authorization")
 require("dotenv").config()
 
-// @route GET api/auth
-// @decs check if user is logged in
-// @access public
-router.get("/", verifyToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.userId, "-password")
-    if (!user)
-      return res.status(400).json({
-        success: false,
-        message: "User not found",
-      })
-    res.json({
-      success: true,
-      user,
-    })
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    })
-  }
-})
 // @route GET api/user/
 // @decs READ all user
 // @access Private
-router.get("/all", verifyToken, checkManager, async (req, res) => {
+router.get("/", verifyToken, checkManager, async (req, res) => {
   try {
     const users = await User.find({ isActive: true }, "-password")
     res.json({
@@ -54,7 +31,7 @@ router.get("/all", verifyToken, checkManager, async (req, res) => {
 // @access Private
 router.get("/:id", verifyToken, checkManager, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id, "-password")
     res.json({
       success: true,
       user,

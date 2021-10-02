@@ -7,7 +7,7 @@ require("dotenv").config()
 //Import Route
 const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
-
+const customerRouter = require("./routes/customer")
 //Connect to DB
 const connectDB = async () => {
   try {
@@ -30,6 +30,7 @@ app.use(cors())
 //Routes Middleware
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
+app.use("/api/customer", customerRouter)
 
 //Listen
 const PORT = 5000

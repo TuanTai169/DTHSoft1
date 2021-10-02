@@ -1,6 +1,6 @@
 import "./loginPage.css"
 import React from "react"
-import { Link, useHistory, Redirect } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useState, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 
@@ -28,8 +28,10 @@ function LoginPage() {
     try {
       const loginData = await loginUser(login)
       if (loginData.success) {
-        history.push("/dashboard")
+        console.log(loginData)
+        // history.push("/dashboard")
       }
+      console.log(loginData)
     } catch (error) {
       console.log(error)
     }

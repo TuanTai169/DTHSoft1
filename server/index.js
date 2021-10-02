@@ -2,13 +2,11 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const cors = require("cors")
+require("dotenv").config()
 
 //Import Route
 const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
-
-require("dotenv").config()
-const PORT = 5000
 
 //Connect to DB
 const connectDB = async () => {
@@ -33,4 +31,6 @@ app.use(cors())
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 
+//Listen
+const PORT = 5000
 app.listen(PORT, () => console.log(`Server started on post ${PORT}`))

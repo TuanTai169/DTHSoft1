@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const argon2 = require("argon2")
+const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const User = require("../models/User")
 const { userValidation } = require("../validation")
@@ -7,12 +7,35 @@ const { checkAdmin, checkManager } = require("../middleware/authentication")
 const verifyToken = require("../middleware/authorization")
 require("dotenv").config()
 
-// @route GET api/user/
-// @decs READ user
-// @access Private
-router.get("/", verifyToken, checkManager, async (req, res) => {
+// @route GET api/auth
+// @decs check if user is logged in
+// @access public
+router.get("/", verifyToken, async (req, res) => {
   try {
-    const users = await User.find({ isActive: true })
+    const user = await User.findById(req.userId, "-password")
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      })
+    res.json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
+// @route GET api/user/
+// @decs READ all user
+// @access Private
+router.get("/all", verifyToken, checkManager, async (req, res) => {
+  try {
+    const users = await User.find({ isActive: true }, "-password")
     res.json({
       success: true,
       users,
@@ -26,6 +49,24 @@ router.get("/", verifyToken, checkManager, async (req, res) => {
   }
 })
 
+// @route GET api/user/
+// @decs READ a user
+// @access Private
+router.get("/:id", verifyToken, checkManager, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    res.json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
 // @route POST api/user/
 // @decs CREATE user
 // @access Private
@@ -48,7 +89,8 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
         message: "Email already taken",
       })
     //All good
-    const hashedPassword = await argon2.hash(password)
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
     const newUser = new User({
       name,
       email,

@@ -29,7 +29,7 @@ function LoginPage() {
       const loginData = await loginUser(login)
       if (loginData.success) {
         console.log(loginData)
-        // history.push("/dashboard")
+        history.push("/dashboard")
       }
       console.log(loginData)
     } catch (error) {

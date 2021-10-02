@@ -2,14 +2,12 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const cors = require("cors")
+require("dotenv").config()
 
 //Import Route
 const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
-
-require("dotenv").config()
-const PORT = 5000
-
+const customerRouter = require("./routes/customer")
 //Connect to DB
 const connectDB = async () => {
   try {
@@ -32,5 +30,8 @@ app.use(cors())
 //Routes Middleware
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
+app.use("/api/customer", customerRouter)
 
+//Listen
+const PORT = 5000
 app.listen(PORT, () => console.log(`Server started on post ${PORT}`))

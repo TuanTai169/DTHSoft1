@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { boolean } = require("@hapi/joi")
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const CustomerSchema = new Schema(
   {
@@ -20,20 +21,28 @@ const CustomerSchema = new Schema(
     address: {
       type: String,
     },
-    cmt: {
+    cmnd: {
       type: String,
       min: 12,
     },
     gender: {
       type: String,
     },
-    birthDay: {
+    birthDate: {
       type: Date,
     },
     note: {
       type: String,
     },
-    user: {
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    createBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    updateBy: {
       type: Schema.Types.ObjectId,
       ref: "users",
     },
@@ -41,6 +50,6 @@ const CustomerSchema = new Schema(
   {
     timestamps: true,
   }
-);
+)
 
-module.exports = mongoose.model("customers", CustomerSchema);
+module.exports = mongoose.model("customers", CustomerSchema)

@@ -29,6 +29,19 @@ const customerValidation = (data) => {
   })
   return schema.validate(data)
 }
+//Create Room Validation
+const roomValidation = (data) => {
+  const schema = Joi.object({
+    roomNumber: Joi.string().required().min(3),
+    floor: Joi.number().required(),
+    price: Joi.number().required(),
+    roomType: Joi.string(),
+    status: Joi.string(),
+    isActive: Joi.boolean(),
+  })
+  return schema.validate(data)
+}
 
 module.exports.userValidation = userValidation
 module.exports.customerValidation = customerValidation
+module.exports.roomValidation = roomValidation

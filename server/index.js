@@ -8,6 +8,7 @@ require("dotenv").config()
 const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
 const customerRouter = require("./routes/customer")
+const roomRouter = require("./routes/room")
 //Connect to DB
 const connectDB = async () => {
   try {
@@ -31,6 +32,7 @@ app.use(cors())
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/customer", customerRouter)
+app.use("/api/room", roomRouter)
 
 //Listen
 const PORT = 5000

@@ -1,10 +1,10 @@
 const router = require("express").Router()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const User = require("../models/User")
-const { userValidation } = require("../validation")
-const { checkAdmin, checkManager } = require("../middleware/authentication")
-const verifyToken = require("../middleware/authorization")
+const User = require("../../models/User")
+const { userValidation } = require("../../validation")
+const { checkAdmin, checkManager } = require("../../middleware/authentication")
+const verifyToken = require("../../middleware/authorization")
 require("dotenv").config()
 
 // @route GET api/user/

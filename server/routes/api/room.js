@@ -1,9 +1,9 @@
 const router = require("express").Router()
-const { checkManager } = require("../middleware/authentication")
-const verifyToken = require("../middleware/authorization")
-const Room = require("../models/Room")
-const { roomValidation } = require("../validation")
-module.exports = router
+const { checkManager } = require("../../middleware/authentication")
+const verifyToken = require("../../middleware/authorization")
+const Room = require("../../models/Room")
+const { roomValidation } = require("../../validation")
+
 // @route POST api/room/
 // @decs CREATE room
 // @access Private
@@ -214,3 +214,5 @@ router.put(`/changeStatus/:id`, verifyToken, async (req, res) => {
     })
   }
 })
+
+module.exports = router

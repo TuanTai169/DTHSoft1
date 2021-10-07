@@ -1,14 +1,12 @@
+require("dotenv").config()
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const cors = require("cors")
-require("dotenv").config()
 
-//Import Route
-const authRouter = require("./routes/auth")
-const userRouter = require("./routes/user")
-const customerRouter = require("./routes/customer")
-const roomRouter = require("./routes/room")
+//Import Routes
+const routes = require("./routes")
+
 //Connect to DB
 const connectDB = async () => {
   try {
@@ -27,12 +25,7 @@ connectDB()
 //Middleware
 app.use(express.json())
 app.use(cors())
-
-//Routes Middleware
-app.use("/api/auth", authRouter)
-app.use("/api/user", userRouter)
-app.use("/api/customer", customerRouter)
-app.use("/api/room", roomRouter)
+app.use(routes)
 
 //Listen
 const PORT = 5000

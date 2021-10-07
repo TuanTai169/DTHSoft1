@@ -1,7 +1,7 @@
 const router = require("express").Router()
-const verifyToken = require("../middleware/authorization")
-const Customer = require("../models/Customer")
-const { customerValidation } = require("../validation")
+const verifyToken = require("../../middleware/authorization")
+const Customer = require("../../models/Customer")
+const { customerValidation } = require("../../validation")
 
 // @route POST api/customer/
 // @decs CREATE customer

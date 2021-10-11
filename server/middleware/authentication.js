@@ -7,7 +7,7 @@ const checkAdmin = async (req, res, next) => {
     if (user.roles === "EMPLOYEE" || user.roles === "MANAGER")
       return res.status(200).json({
         success: false,
-        message: "User permission",
+        message: "You are not allowed to make this request",
       })
     next()
   } catch (error) {

@@ -27,6 +27,8 @@ router.post("/", verifyToken, async (req, res) => {
     const newService = new Service({
       name,
       price,
+      createBy: req.userId,
+      updateBy: null,
     })
 
     await newService.save()
@@ -106,6 +108,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
       name: name,
       price: price,
       isActive: isActive,
+      updateBy: req.userId,
     }
     const serviceUpdatedCondition = { _id: req.params.id }
 
@@ -136,7 +139,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
 router.put(`/delete/:id`, verifyToken, checkManager, async (req, res) => {
   try {
     const serviceDeleteCondition = { _id: req.params.id }
-    const deleted = { isActive: false }
+    const deleted = { isActive: false, updateBy: req.userId }
     let deletedService = await Service.findOneAndUpdate(
       serviceDeleteCondition,
       deleted,

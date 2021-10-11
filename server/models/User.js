@@ -36,6 +36,14 @@ const UserSchema = new Schema(
       enum: ["EMPLOYEE", "MANAGER", "ADMIN"],
       default: "EMPLOYEE",
     },
+    createBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    updateBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   {
     timestamps: true,

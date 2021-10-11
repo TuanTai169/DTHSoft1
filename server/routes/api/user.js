@@ -76,6 +76,8 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
       address: address || "",
       image: image || "",
       roles: roles || "EMPLOYEE",
+      createBy: req.userId,
+      updateBy: null,
     })
     await newUser.save()
 
@@ -121,6 +123,7 @@ router.put(`/update/:id`, verifyToken, checkManager, async (req, res) => {
       image: image || "",
       isActive: isActive,
       roles: roles || "EMPLOYEE",
+      updateBy: req.userId,
     }
 
     const userUpdateCondition = { _id: req.params.id }
@@ -146,10 +149,10 @@ router.put(`/update/:id`, verifyToken, checkManager, async (req, res) => {
 // @route DELETE api/user/
 // @decs delete user
 // @access Private
-router.put(`/delete/:id`, verifyToken, checkManager, async (req, res) => {
+router.put(`/delete/:id`, verifyToken, checkAdmin, async (req, res) => {
   try {
     const userDeleteCondition = { _id: req.params.id }
-    const deleted = { isActive: false }
+    const deleted = { isActive: false, updateBy: req.userId }
     let deletedUser = await User.findOneAndUpdate(
       userDeleteCondition,
       deleted,

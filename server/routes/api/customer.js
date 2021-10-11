@@ -2,6 +2,7 @@ const router = require("express").Router()
 const verifyToken = require("../../middleware/authorization")
 const Customer = require("../../models/Customer")
 const { customerValidation } = require("../../validation")
+const convertDate = require("../../tools/convert")
 
 // @route POST api/customer/
 // @decs CREATE customer
@@ -162,7 +163,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
 router.put(`/delete/:id`, verifyToken, async (req, res) => {
   try {
     const customerDeleteCondition = { _id: req.params.id }
-    const deleted = { isActive: false }
+    const deleted = { isActive: false, updateBy: req.userId }
     let deletedCus = await Customer.findOneAndUpdate(
       customerDeleteCondition,
       deleted,

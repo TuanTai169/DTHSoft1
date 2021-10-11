@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { checkManager } = require("../../middleware/authentication")
+const { checkManager, checkAdmin } = require("../../middleware/authentication")
 const verifyToken = require("../../middleware/authorization")
 const Room = require("../../models/Room")
 const { roomValidation } = require("../../validation")
@@ -7,7 +7,7 @@ const { roomValidation } = require("../../validation")
 // @route POST api/room/
 // @decs CREATE room
 // @access Private
-router.post("/", verifyToken, checkManager, async (req, res) => {
+router.post("/", verifyToken, checkAdmin, async (req, res) => {
   const { roomNumber, floor, price, roomType, status } = req.body
 
   //Validation
@@ -32,6 +32,8 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
       price,
       roomType,
       status,
+      createBy: req.userId,
+      updateBy: null,
     })
 
     await newRoom.save()
@@ -112,7 +114,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 })
 
 // @route PUT api/room/
-// @decs UPDATE room
+// @decs UPDATE room by ID
 // @access Private
 router.put("/update/:id", verifyToken, async (req, res) => {
   const { roomNumber, floor, price, roomType, status, isActive } = req.body
@@ -133,6 +135,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
       roomType: roomType,
       status: status,
       isActive: isActive,
+      updateBy: req.userId,
     }
 
     const roomUpdatedCondition = { _id: req.params.id }
@@ -161,10 +164,10 @@ router.put("/update/:id", verifyToken, async (req, res) => {
 // @route PUT api/room/
 // @decs DELETE room
 // @access Private
-router.put(`/delete/:id`, verifyToken, checkManager, async (req, res) => {
+router.put(`/delete/:id`, verifyToken, checkAdmin, async (req, res) => {
   try {
     const roomDeleteCondition = { _id: req.params.id }
-    const deleted = { isActive: false }
+    const deleted = { isActive: false, updateBy: req.userId }
     let deletedRoom = await Room.findOneAndUpdate(
       roomDeleteCondition,
       deleted,
@@ -193,7 +196,7 @@ router.put(`/changeStatus/:id`, verifyToken, async (req, res) => {
   const { status } = req.body
   try {
     const roomUpdateCondition = { _id: req.params.id }
-    const updated = { status: status }
+    const updated = { status: status, updateBy: req.userId }
     let updatedRoom = await Room.findOneAndUpdate(
       roomUpdateCondition,
       updated,

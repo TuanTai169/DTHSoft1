@@ -16,6 +16,14 @@ const ServiceSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    createBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    updateBy: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   {
     timestamps: true,

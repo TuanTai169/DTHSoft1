@@ -11,13 +11,20 @@ const ReceiptSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "customers",
     },
-    roomCharge: {
-      type: Number,
-      default: 0,
-    },
     paidOut: {
       type: Number,
+      required: true,
       default: 0,
+    },
+    refund: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    status: {
+      type: String,
+      enum: ["PENDING", "PENDED"],
+      default: "PENDING",
     },
     createBy: {
       type: Schema.Types.ObjectId,

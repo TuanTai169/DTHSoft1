@@ -23,7 +23,7 @@ const RoomSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["READY", "OCCUPIED", "CLEANING"],
+      enum: ["READY", "OCCUPIED", "CLEANING", "BOOKING"],
       default: "READY",
     },
     isActive: {

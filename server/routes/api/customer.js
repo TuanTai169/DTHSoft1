@@ -22,7 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
     //Check for existing email
     const emailExist = await Customer.findOne({ email })
     if (emailExist)
-      return res.status(400).json({
+      return res.status(409).json({
         success: false,
         message: "Email already taken",
       })
@@ -81,7 +81,7 @@ router.get("/:id", verifyToken, async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id)
     if (!customer)
-      res.json({
+      res.status(400).json({
         success: false,
         message: "Customer not found",
       })
@@ -143,7 +143,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
       updateCustomer,
       { new: true }
     )
-    res.json({
+    res.status(200).json({
       success: true,
       message: "User updated successfully",
       updatedCustomer,
@@ -171,7 +171,7 @@ router.put(`/delete/:id`, verifyToken, async (req, res) => {
         new: true,
       }
     )
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Customer deleted successfully",
       deletedCus,

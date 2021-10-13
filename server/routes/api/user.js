@@ -128,14 +128,14 @@ router.put(`/update/:id`, verifyToken, checkManager, async (req, res) => {
 
     const userUpdateCondition = { _id: req.params.id }
 
-    updateUser = await User.findOneAndUpdate(userUpdateCondition, updateUser, {
+    updatedUser = await User.findOneAndUpdate(userUpdateCondition, updateUser, {
       new: true,
     })
 
     res.json({
       success: true,
       message: "User updated successfully",
-      updateUser,
+      updatedUser,
     })
   } catch (error) {
     console.log(error)

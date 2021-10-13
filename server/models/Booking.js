@@ -84,6 +84,10 @@ const BookingSchema = new Schema(
       type: Number,
       default: 0,
     },
+    serviceCharge: {
+      type: Number,
+      default: 0,
+    },
     discount: {
       type: Number,
       default: 0,
@@ -98,8 +102,8 @@ const BookingSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["BOOK", "CHECK IN", "CHECK OUT", "CANCELLED"],
-      default: "BOOK",
+      enum: ["BOOKING", "CHECK IN", "CHECK OUT", "CANCELLED"],
+      default: "BOOKING",
     },
     createBy: {
       type: Schema.Types.ObjectId,

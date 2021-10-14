@@ -46,6 +46,11 @@ const Schema = mongoose.Schema
 
 const BookingSchema = new Schema(
   {
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     rooms: [
       {
         type: Schema.Types.ObjectId,

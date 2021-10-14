@@ -1,5 +1,4 @@
 const router = require("express").Router()
-const Room = require("../../models/Room")
 const Booking = require("../../models/Booking")
 const verifyToken = require("../../middleware/authorization")
 const toolRoom = require("../../tools/roomTool")
@@ -28,8 +27,15 @@ router.post("/:book", verifyToken, async (req, res) => {
         message: "Room has been booked or occupied",
       })
 
+    //Generate code
+    const code = "DTH" + Date.now().toString()
+
+    //Calculate diffInDays
+    const diffInDays = toolRoom.getNumberOfDays(checkInDate, checkOutDate)
+
     // //Calculate room's price
     const roomCharge = await toolRoom.calculateRoomCharge(rooms)
+    const totalRoomCharge = roomCharge * diffInDays
     // //Calculate service's price
     const serviceCharge = await toolService.calculateServiceCharge(services)
 
@@ -38,14 +44,18 @@ router.post("/:book", verifyToken, async (req, res) => {
 
     //Price
     const VAT = 10
-    const totalPrice = (roomCharge + serviceCharge) * (1 + VAT / 100)
+    const totalPrice = (
+      (totalRoomCharge + serviceCharge) *
+      (1 + VAT / 100)
+    ).toFixed()
 
     const newBooking = new Booking({
+      code,
       rooms,
       customer,
       checkInDate,
       checkOutDate,
-      roomCharge: roomCharge,
+      roomCharge: totalRoomCharge,
       services,
       serviceCharge: serviceCharge,
       deposit,
@@ -60,11 +70,12 @@ router.post("/:book", verifyToken, async (req, res) => {
     await newBooking.save()
 
     //Change STATUS ROOM
-    toolRoom.changeStatus(rooms, status)
+    const statusOfRoom = status === "BOOKING" ? "BOOKING" : "OCCUPIED"
+    toolRoom.changeStatus(rooms, statusOfRoom)
 
     res.json({
       success: true,
-      message: `Booking successfully`,
+      message: `${status} successfully`,
       booking: newBooking,
     })
   } catch (error) {
@@ -115,6 +126,123 @@ router.get("/:id", verifyToken, async (req, res) => {
 })
 
 // @route PUT api/booking/
+// @decs UPDATE booking
+// @access Private
+router.put(`/update/:id`, verifyToken, async (req, res) => {
+  const {
+    rooms,
+    customer,
+    checkInDate,
+    checkOutDate,
+    services,
+    deposit,
+    discount,
+    status,
+  } = req.body
+
+  try {
+    //Calculate diffInDays
+    const diffInDays = toolRoom.getNumberOfDays(checkInDate, checkOutDate)
+
+    // //Calculate room's price
+    const roomCharge = await toolRoom.calculateRoomCharge(rooms)
+    const totalRoomCharge = roomCharge * diffInDays
+
+    // //Calculate service's price
+    const serviceCharge = await toolService.calculateServiceCharge(services)
+
+    //Price
+    const VAT = 10
+    const totalPrice = (
+      (totalRoomCharge + serviceCharge) *
+      (1 + VAT / 100)
+    ).toFixed()
+
+    //All good
+    let updateBooking = {
+      rooms,
+      customer,
+      checkInDate,
+      checkOutDate,
+      roomCharge: totalRoomCharge,
+      services,
+      serviceCharge: serviceCharge,
+      deposit,
+      discount,
+      VAT,
+      totalPrice,
+      status,
+      updateBy: req.userId,
+    }
+
+    const bookingUpdateCondition = { _id: req.params.id }
+
+    let updatedBooking = await Booking.findOneAndUpdate(
+      bookingUpdateCondition,
+      updateBooking,
+      {
+        new: true,
+      }
+    )
+    //Change STATUS ROOM
+    toolRoom.changeStatus(rooms, status)
+
+    res.json({
+      success: true,
+      message: "Booking updated successfully",
+      updatedBooking,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
+
+// @route PUT api/booking/
+// @decs DELETE booking
+// @access Private
+router.put(`/delete/:id`, verifyToken, async (req, res) => {
+  try {
+    const bookingID = req.params.id
+    const booking = await Booking.findById(bookingID)
+
+    const bookingDeleteCondition = { _id: bookingID }
+
+    const deleted = {
+      isActive: false,
+      updateBy: req.userId,
+      status: "CANCELLED",
+    }
+
+    let deletedBooking = await Booking.findOneAndUpdate(
+      bookingDeleteCondition,
+      deleted,
+      {
+        new: true,
+      }
+    )
+
+    //Change STATUS ROOM
+    toolRoom.changeStatus(booking.rooms, "READY")
+
+    res.json({
+      success: true,
+      message: "Booking deleted successfully",
+      deletedBooking,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
+
+// @route PUT api/booking/
 // @decs CHANGE ROOM
 // @access Private
 router.put(
@@ -124,36 +252,48 @@ router.put(
     const bookingID = req.params.bookingID
     const roomChooseID = req.params.roomChooseID
     const roomChangeID = req.params.roomChangeID
+
     try {
       const booking = await Booking.findById(bookingID)
       const serviceCharge = booking.serviceCharge
+      const checkInDate = booking.checkInDate
+      const checkOutDate = booking.checkOutDate
       const newRooms = toolRoom.changeRoom(
         booking.rooms,
         roomChooseID,
         roomChangeID
       )
+
+      //Calculate diffInDays
+      const diffInDays = toolRoom.getNumberOfDays(checkInDate, checkOutDate)
+
       //Calculate room's price
       const roomCharge = await toolRoom.calculateRoomCharge(newRooms)
+      const totalRoomCharge = roomCharge * diffInDays
+
       //Price
       const VAT = 10
-      const totalPrice = (roomCharge + serviceCharge) * (1 + VAT / 100)
+      const totalPrice = (
+        (totalRoomCharge + serviceCharge) *
+        (1 + VAT / 100)
+      ).toFixed(0)
 
+      //UPDATE
       const bookingUpdateCondition = { _id: bookingID }
 
       let updateBooking = {
         rooms: newRooms,
-        roomCharge,
+        roomCharge: totalRoomCharge,
         totalPrice,
       }
-      updatedBooking = await Booking.findOneAndUpdate(
+      let updatedBooking = await Booking.findOneAndUpdate(
         bookingUpdateCondition,
         updateBooking,
         {
           new: true,
         }
       )
-
-      //Change STATUS ROOM
+      //Change STATUS room
       toolRoom.changeStatus(newRooms, "OCCUPIED")
       toolRoom.changeStatus(roomChooseID, "READY")
       res.json({
@@ -170,4 +310,5 @@ router.put(
     }
   }
 )
+
 module.exports = router

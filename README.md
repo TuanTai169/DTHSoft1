@@ -11,5 +11,13 @@
 4. Update template admin
 5. Tối thứ 2 cập nhật code API vì lúc nãy lỡ tay xóa con mẹ nó cái vừa viết xong
 
+Đẩy code lên github
+
+git init
+git add .
+git commit -m"finsh-project"
+git remote add origin < link github của bạn >
+git push -u origin master
+
 
 

@@ -13,11 +13,11 @@
 
 Đẩy code lên github
 
-git init
-git add .
-git commit -m"finsh-project"
-git remote add origin < link github của bạn >
-git push -u origin master
+#git init
+#git add .
+#git commit -m"finsh-project"
+#git remote add origin < link github của bạn >
+#git push -u origin master
 
 
 

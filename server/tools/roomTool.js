@@ -1,14 +1,37 @@
 const Room = require("../models/Room")
 const _ = require("lodash")
-exports.changeStatus = async (rooms, status) => {
-  for (const room of rooms) {
-    const filter = { _id: room }
-    const update = { status: status }
-
-    updatedRoom = await Room.findByIdAndUpdate(filter, update, { new: true })
+exports.changeStatusArrayRooms = async (rooms, status, userId) => {
+  try {
+    for (const room of rooms) {
+      const filter = { _id: room }
+      const update = { status: status, updateBy: userId }
+      updatedRoom = await Room.findByIdAndUpdate(filter, update, {
+        new: true,
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
   }
 }
-
+exports.changeStatusOneRoom = async (room, status, userId) => {
+  try {
+    const filter = { _id: room }
+    const update = { status: status, updateBy: userId }
+    updatedRoom = await Room.findByIdAndUpdate(filter, update, {
+      new: true,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+}
 exports.calculateRoomCharge = async (rooms) => {
   const listRoom = await getAllInfoRoom(rooms)
   return _.sumBy(listRoom, (item) => item.price)

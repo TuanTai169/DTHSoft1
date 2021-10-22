@@ -7,7 +7,7 @@ const toolReceipt = require("../../tools/receiptTool")
 const { receiptValidation } = require("../../tools/validation")
 
 // @route POST api/receipt/
-// @decs CREATE RECEIPT / PAYMENT
+// @decs CREATE RECEIPT / CHECKOUT
 // @access Private
 router.post("/", verifyToken, async (req, res) => {
   const { booking, paidOut, refund } = req.body
@@ -77,10 +77,13 @@ router.get("/", verifyToken, async (req, res) => {
         path: "booking",
         select: "-isActive -createBy -updateBy -createdAt -updatedAt",
         populate: { path: "customer", select: "name email phone" },
-        populate: {
-          path: "rooms",
-          select: "roomNumber floor price roomType status",
-        },
+        populate: [
+          { path: "customer", select: "name email phone" },
+          {
+            path: "rooms",
+            select: "roomNumber floor price roomType status",
+          },
+        ],
       })
       .populate({ path: "createBy", select: "name" })
       .populate({ path: "updateBy", select: "name" })
@@ -107,10 +110,13 @@ router.get("/:id", verifyToken, async (req, res) => {
         path: "booking",
         select: "-isActive -createBy -updateBy -createdAt -updatedAt",
         populate: { path: "customer", select: "name email phone" },
-        populate: {
-          path: "rooms",
-          select: "roomNumber floor price roomType status",
-        },
+        populate: [
+          { path: "customer", select: "name email phone" },
+          {
+            path: "rooms",
+            select: "roomNumber floor price roomType status",
+          },
+        ],
       })
       .populate({ path: "createBy", select: "name" })
       .populate({ path: "updateBy", select: "name" })
@@ -127,8 +133,8 @@ router.get("/:id", verifyToken, async (req, res) => {
   }
 })
 
-// @route PUT api/booking/
-// @decs UPDATE booking
+// @route PUT api/receipt/
+// @decs UPDATE receipt
 // @access Private
 router.put(`/update/:id`, verifyToken, async (req, res) => {
   const { booking, paidOut, refund } = req.body

@@ -6,11 +6,14 @@ import "./assets/css/grid.css"
 import "./assets/css/theme.css"
 import "./assets/css/index.css"
 import App from "./App"
-
+import { Provider } from "react-redux"
+import store from "./redux/store"
 document.title = "DTHSOFT"
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 )

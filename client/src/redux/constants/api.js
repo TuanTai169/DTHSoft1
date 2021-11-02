@@ -1,4 +1,3 @@
-export const BASE_API_URL =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:5000/api"
-    : "https://dth-soft-app.herokuapp.com/api"
+export const HOST_API_URL = "https://dth-soft-app.herokuapp.com/api"
+
+export const LOCAL_API_URL = "http://localhost:5000/api"

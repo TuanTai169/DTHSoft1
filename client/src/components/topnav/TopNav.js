@@ -1,23 +1,14 @@
 import React from "react"
-
 import "./topnav.css"
-
 import { Link } from "react-router-dom"
-
 import Dropdown from "../Common/dropdown/Dropdown"
-
 import ThemeMenu from "../../containers/Theme/ThemeMenu"
-
 import notifications from "../../assets/JsonData/notification.json"
-
-import user_image from "../../assets/images/tuat.png"
-
 import user_menu from "../../assets/JsonData/user_menus.json"
-
-const curr_user = {
-  display_name: "Admin",
-  image: user_image,
-}
+import { useDispatch, useSelector } from "react-redux"
+import { Button } from "react-bootstrap"
+import male_avatar from "../../assets/images/male_avatar.png"
+import { logout } from "../../redux/actions/authAction"
 
 const renderNotificationItem = (item, index) => (
   <div className="notification-item" key={index}>
@@ -29,14 +20,14 @@ const renderNotificationItem = (item, index) => (
 const renderUserToggle = (user) => (
   <div className="topnav__right-user">
     <div className="topnav__right-user__image">
-      <img src={user.image} alt="" />
+      <img src={male_avatar} alt="avatar" />
     </div>
-    <div className="topnav__right-user__name">{user.display_name}</div>
+    <div className="topnav__right-user__name">{user.name}</div>
   </div>
 )
 
 const renderUserMenu = (item, index) => (
-  <Link to="/" key={index}>
+  <Link to={item.link} key={index}>
     <div className="notification-item">
       <i className={item.icon}></i>
       <span>{item.content}</span>
@@ -45,17 +36,25 @@ const renderUserMenu = (item, index) => (
 )
 
 const Topnav = () => {
+  const user = useSelector((state) => state.auth.user)
+  const dispatch = useDispatch()
+
+  const handlerLogout = () => {
+    dispatch(logout())
+  }
+
   return (
     <div className="topnav">
-      <div className="topnav__search">
+      <div></div>
+      {/* <div className="topnav__search">
         <input type="text" placeholder="Search here..." />
         <i className="bx bx-search"></i>
-      </div>
+      </div> */}
       <div className="topnav__right">
         <div className="topnav__right-item">
           {/* dropdown here */}
           <Dropdown
-            customToggle={() => renderUserToggle(curr_user)}
+            customToggle={() => renderUserToggle(user)}
             contentData={user_menu}
             renderItems={(item, index) => renderUserMenu(item, index)}
           />
@@ -72,6 +71,16 @@ const Topnav = () => {
         </div>
         <div className="topnav__right-item">
           <ThemeMenu />
+        </div>
+        <div className="topnav__right-item">
+          <Button
+            className="logout"
+            style={{ padding: "0px" }}
+            variant="none"
+            onClick={handlerLogout}
+          >
+            <i className="bx bx-log-in-circle" style={{ fontSize: "36px" }}></i>
+          </Button>
         </div>
       </div>
     </div>

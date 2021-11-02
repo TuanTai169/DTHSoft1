@@ -9,6 +9,7 @@ import Dashboard from "../../containers/Dashboard/Dashboard"
 import Customers from "../../containers/Customer/Customers"
 import Services from "../../containers/Service/Services"
 import Rooms from "../../containers/Room/Rooms"
+import NotFound from "../Common/NotFound/NotFound"
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
@@ -27,27 +28,31 @@ const Layout = () => {
   }, [dispatch])
 
   return (
-    <Router>
-      <Route
-        render={(props) => (
-          <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
-            <Sidebar {...props} />
-            <div className="layout__content">
-              <TopNav />
-              <div className="layout__content-main">
-                <Switch>
-                  <Route path="/" exact component={Dashboard} />
-                  <Route path="/customers" component={Customers} />
-                  <Route path="/services" component={Services} />
-                  <Route path="/rooms" component={Rooms} />
-                  <Route>404 NOT FOUND</Route>
-                </Switch>
+    <>
+      <Router>
+        <Route
+          render={(props) => (
+            <div
+              className={`layout ${themeReducer.mode} ${themeReducer.color}`}
+            >
+              <Sidebar {...props} />
+              <div className="layout__content">
+                <TopNav />
+                <div className="layout__content-main">
+                  <Switch>
+                    <Route path="/" exact component={Dashboard} />
+                    <Route path="/customers" component={Customers} />
+                    <Route path="/services" component={Services} />
+                    <Route path="/rooms" component={Rooms} />
+                    <Route path="*" component={NotFound} />
+                  </Switch>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      />
-    </Router>
+          )}
+        />
+      </Router>
+    </>
   )
 }
 

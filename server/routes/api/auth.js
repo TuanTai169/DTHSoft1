@@ -4,8 +4,70 @@ const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
 const User = require("../../models/User")
 const sendEmail = require("../../utils/mailer")
-
+const verifyToken = require("../../middleware/authorization")
 require("dotenv").config()
+
+//@route GET api/auth
+//@desc Check if user is logged in
+//@success Public
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId)
+      .select("-password -updatedAt -createdAt")
+      .populate({ path: "createBy", select: "name" })
+      .populate({ path: "updateBy", select: "name" })
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      })
+    res.json({ success: true, user })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal sever error",
+    })
+  }
+})
+
+// @route POST api/auth/login
+// @decs Login user
+// @access public
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body
+  try {
+    // Check for existing email
+    const user = await User.findOne({ email })
+    if (!user)
+      return res
+        .status(409)
+        .json({ success: false, message: "Incorrect email or password" })
+
+    // Email found
+    const passwordValid = await bcrypt.compare(password, user.password)
+    if (!passwordValid)
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect email or password" })
+
+    //All good
+    //Return Token JWT
+    const accessToken = jwt.sign(
+      { userId: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    )
+    res.json({
+      success: true,
+      message: "User logged in successfully",
+      accessToken,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: "Internal server error" })
+  }
+})
 
 // @route POST api/auth/register
 // @decs Register user
@@ -55,50 +117,6 @@ require("dotenv").config()
 //     })
 //   }
 // })
-
-// @route POST api/auth/login
-// @decs Login user
-// @access public
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body
-  try {
-    // Check for existing email
-    const user = await User.findOne({ email })
-    if (!user)
-      return res
-        .status(409)
-        .json({ success: false, message: "Incorrect email or password" })
-
-    // Email found
-    const passwordValid = await bcrypt.compare(password, user.password)
-    if (!passwordValid)
-      return res
-        .status(400)
-        .json({ success: false, message: "Incorrect email or password" })
-
-    //All good
-    //Return Token JWT
-    const accessToken = jwt.sign(
-      { userId: user._id },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    )
-    res.json({
-      success: true,
-      message: "User logged in successfully",
-      accessToken,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.roles,
-      },
-    })
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ success: false, message: "Internal server error" })
-  }
-})
 
 // // @route POST api/auth
 // // @decs Forgot Password

@@ -5,14 +5,14 @@
     "icon": "bx bx-category-alt"
   },
   {
+    "display_name": "Room Diagram",
+    "route": "/room-diagram",
+    "icon": "bx bx-dialpad"
+  },
+  {
     "display_name": "Customers",
     "route": "/customers",
     "icon": "bx bx-user"
-  },
-  {
-    "display_name": "Rooms",
-    "route": "/rooms",
-    "icon": "bx bx-bookmark"
   },
   {
     "display_name": "Users",
@@ -23,6 +23,11 @@
     "display_name": "Services",
     "route": "/services",
     "icon": "bx bx-gift"
+  },
+  {
+    "display_name": "Rooms",
+    "route": "/rooms",
+    "icon": "bx bx-bookmark"
   },
   {
     "display_name": "Income management",

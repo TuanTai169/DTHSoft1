@@ -1,7 +1,7 @@
 import React from "react"
 import { Form, Modal, Button } from "react-bootstrap"
 
-function DetailServiceModel(props) {
+function DetailServiceModal(props) {
   const { show, handlerModalClose, service } = props
 
   const { name, price } = service
@@ -48,4 +48,4 @@ function DetailServiceModel(props) {
   )
 }
 
-export default DetailServiceModel
+export default DetailServiceModal

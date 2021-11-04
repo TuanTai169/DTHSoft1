@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { HashRouter, Route, Switch } from "react-router-dom"
 import Layout from "./components/Layout/Layout"
 import Login from "./containers/Login/Login"
 
@@ -16,12 +16,12 @@ function App() {
 
   return (
     <>
-      <Router>
+      <HashRouter>
         <Switch>
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/" component={Layout} />
         </Switch>
-      </Router>
+      </HashRouter>
       <ToastContainer autoClose={3000} theme="colored" />
     </>
   )

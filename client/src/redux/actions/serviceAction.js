@@ -1,8 +1,7 @@
 import * as types from "../constants/serviceConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-//import { BASE_API_URL } from "./../constants/api"
-import { LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL Service
 export const getAllService = () => {
@@ -10,7 +9,7 @@ export const getAllService = () => {
     try {
       dispatch({ type: types.SET_SERVICE_LOADING, payload: true })
 
-      const response = await axios.get(`${LOCAL_API_URL}/service`)
+      const response = await axios.get(`${HOST_API_URL}/service`)
       if (response.data.success) {
         dispatch({
           type: types.GET_ALL_SERVICE,
@@ -28,7 +27,7 @@ export const getAllService = () => {
 export const findService = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${LOCAL_API_URL}/service/${id}`)
+      const response = await axios.get(`${HOST_API_URL}/service/${id}`)
 
       if (response.data.success) {
         dispatch({
@@ -47,7 +46,7 @@ export const findService = (id) => {
 export const addService = (newService) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${LOCAL_API_URL}/service`, newService)
+      const response = await axios.post(`${HOST_API_URL}/service`, newService)
       if (response.data.success) {
         dispatch({
           type: types.ADD_SERVICE,
@@ -65,7 +64,7 @@ export const addService = (newService) => {
 export const deleteService = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`${LOCAL_API_URL}/service/delete/${id}`)
+      const response = await axios.put(`${HOST_API_URL}/service/delete/${id}`)
       if (response.data.success) {
         dispatch({
           type: types.DELETE_SERVICE,
@@ -83,7 +82,7 @@ export const updateService = (updateService) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${LOCAL_API_URL}/service/update/${updateService._id}`,
+        `${HOST_API_URL}/service/update/${updateService._id}`,
         updateService
       )
       if (response.data.success) {

@@ -3,7 +3,7 @@ import { Button, ButtonToolbar } from "react-bootstrap"
 import EditServiceModal from "./EditServiceModal"
 import { deleteService } from "../../redux/actions/serviceAction"
 import { useDispatch } from "react-redux"
-import DetailServiceModel from "./DetailServiceModel"
+import DetailServiceModal from "./DetailServiceModal"
 import DialogDelete from "../../components/Dialog/DialogDelete"
 
 const ServiceItem = (props) => {
@@ -67,7 +67,7 @@ const ServiceItem = (props) => {
             show={isEditOpen}
             service={service}
           />
-          <DetailServiceModel
+          <DetailServiceModal
             handlerModalClose={handlerModalViewClose}
             show={isViewOpen}
             service={service}

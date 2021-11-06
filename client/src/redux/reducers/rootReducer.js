@@ -7,13 +7,12 @@ import customersReducer from "./customersReducer"
 import { combineReducers } from "redux"
 
 const rootReducer = combineReducers({
-    themeReducer,
-    serviceReducer,
-    roomReducer,
-   bookingReducer,
-    customersReducer,
-    auth: authReducer,
-
+  themeReducer,
+  serviceReducer,
+  roomReducer,
+  bookingReducer,
+  customersReducer,
+  auth: authReducer,
 })
 
 export default rootReducer

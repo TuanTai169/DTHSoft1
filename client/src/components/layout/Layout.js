@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import "./layout.css"
+import './layout.css'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import themeAction from "../../redux/actions/themeAction"
@@ -12,7 +12,7 @@ import Customers from "../../containers/Customer/Customers"
 import Services from "../../containers/Service/Services"
 import Rooms from "../../containers/Room/Rooms"
 import Users from "../../containers/User/Users"
-import NotFound from "./../Common/NotFound/NotFound"
+import NotFound from "../Common/NotFound/NotFound"
 
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer)

@@ -90,7 +90,6 @@ router.get("/", verifyToken, async (req, res) => {
       .populate({
         path: "booking",
         select: "-isActive -createBy -updateBy -createdAt -updatedAt",
-        populate: { path: "customer", select: "name email phone" },
         populate: [
           { path: "customer", select: "name email phone" },
           {

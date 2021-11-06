@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
-import './layout.css'
+import "./layout.css"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import themeAction from "../../redux/actions/themeAction"
 
 import Sidebar from "../Sidebar/Sidebar"
-import TopNav from "../Topnav/TopNav"
+import TopNav from "../Topnav/Topnav"
 
 import Dashboard from "../../containers/Dashboard/Dashboard"
 import Customers from "../../containers/Customer/Customers"

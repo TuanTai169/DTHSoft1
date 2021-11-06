@@ -1,18 +1,17 @@
-import React from 'react'
+import React from "react"
 import { Table } from "react-bootstrap"
-import CustomersItem from './CustomersItem'
+import CustomersItem from "./CustomersItem"
 
 function CustomersTable(props) {
+  const { customers, role } = props
 
-    const { customers, role } = props
-
-    const tableHead = ["name","gender",,"email","phone","address", "action"]
-    const renderHead = tableHead.map((item, index) => {
+  const tableHead = ["name", "gender", , "email", "phone", "address", "action"]
+  const renderHead = tableHead.map((item, index) => {
     return <th key={index}>{item}</th>
   })
 
-    return (
-        <>
+  return (
+    <>
       <Table striped>
         <thead>
           <tr>{renderHead}</tr>
@@ -26,7 +25,7 @@ function CustomersTable(props) {
         </tbody>
       </Table>
     </>
-    )
+  )
 }
 
 export default CustomersTable

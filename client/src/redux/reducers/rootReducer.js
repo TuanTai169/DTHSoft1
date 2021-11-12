@@ -1,4 +1,4 @@
-import themeReducer from "./themeReducer"
+import themeReducer from "./themesReducer"
 import serviceReducer from "./serviceReducer"
 import roomReducer from "./roomReducer"
 import authReducer from "./authReducer"

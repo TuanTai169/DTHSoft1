@@ -60,7 +60,7 @@ function Customers() {
                     className={role === "EMPLOYEE" ? "disabled" : ""}
                     onClick={() => setIsOpen(true)}
                   >
-                    Add Cusomers
+                    Add Customer
                   </Button>
                   <AddCustomerModal
                     show={isOpen}

@@ -3,7 +3,7 @@ import serviceReducer from "./serviceReducer"
 import roomReducer from "./roomReducer"
 import authReducer from "./authReducer"
 import bookingReducer from "./bookingReducer"
-import customersReducer from "./customersReducer"
+import customerReducer from "./customerReducer"
 import { combineReducers } from "redux"
 
 const rootReducer = combineReducers({
@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   serviceReducer,
   roomReducer,
   bookingReducer,
-  customersReducer,
+  customerReducer,
   auth: authReducer,
 })
 

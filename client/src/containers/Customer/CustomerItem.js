@@ -1,39 +1,35 @@
 import React, { useState } from "react"
 import { Button, ButtonToolbar } from "react-bootstrap"
 import { useDispatch } from "react-redux"
-import DetailCustomersModel from "./DetailCustomersModel"
+import DetailCustomerModal from "./DetailCustomerModal"
 import DialogDelete from "../../components/Dialog/DialogDelete"
-import EditCustomersModal from "./EditCustomersModal"
-import { deleteCustomers } from "../../redux/actions/customersAction"
+import EditCustomersModal from "./EditCustomerModal"
+import { deleteCustomer } from "../../redux/actions/customerAction"
 
+const CustomerItem = (props) => {
+  const { customer, role } = props
+  const dispatch = useDispatch()
 
-const CustomersItem = (props) => {
-    const { customer, role } = props
-    const dispatch = useDispatch()
-  
-    const [isViewOpen, setIsViewOpen] = useState(false)
-    const [isEditOpen, setIsEditOpen] = useState(false)
-    const [conformDialog, setConformDialog] = useState({
-      isOpenDialog: false,
-      title: "",
-      message: "",
-    })
+  const [isViewOpen, setIsViewOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [conformDialog, setConformDialog] = useState({
+    isOpenDialog: false,
+    title: "",
+    message: "",
+  })
 
-const handlerModalViewClose = () => setIsViewOpen(false)
-const handlerModalEditClose = () => setIsEditOpen(false)
+  const handlerModalViewClose = () => setIsViewOpen(false)
+  const handlerModalEditClose = () => setIsEditOpen(false)
 
-const handlerDelete = (id) => {
-    dispatch(deleteCustomers(id))
+  const handlerDelete = (id) => {
+    dispatch(deleteCustomer(id))
   }
-
 
   return (
     <>
       <td>{customer.name}</td>
-      <td>{customer.gender}</td>
       <td>{customer.email}</td>
       <td>{customer.phone}</td>
-      <td>{customer.address}</td>
       <td>
         <ButtonToolbar>
           <Button
@@ -72,7 +68,7 @@ const handlerDelete = (id) => {
             show={isEditOpen}
             customer={customer}
           />
-          <DetailCustomersModel
+          <DetailCustomerModal
             handlerModalClose={handlerModalViewClose}
             show={isViewOpen}
             customer={customer}
@@ -87,4 +83,4 @@ const handlerDelete = (id) => {
   )
 }
 
-export default CustomersItem
+export default CustomerItem

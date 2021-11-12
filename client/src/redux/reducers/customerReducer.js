@@ -1,50 +1,52 @@
-import * as types from "../constants/CustomersConstant"
+import * as types from "../constants/customerConstant"
 //import { error } from "react-notification-system-redux"
 
 const initialState = {
   customers: [],
   customer: null,
-  iscustomerLoading: false,
+  isCustomerLoading: false,
 }
-const customersReducer = (state = initialState, action) => {
+const customerReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
-    case types.GET_ALL_CUSTOMERS:
+    case types.GET_ALL_CUSTOMER:
       return {
         ...state,
         customers: payload,
       }
-    case types.SET_CUSTOMERS_LOADING:
+    case types.SET_CUSTOMER_LOADING:
       return {
         ...state,
-        iscustomerLoading: payload,
+        isCustomerLoading: payload,
       }
-    case types.SET_CUSTOMERS_ERROR:
+    case types.SET_CUSTOMER_ERROR:
       return {
         ...state,
         customers: [],
-        iscustomerLoading: true,
+        isCustomerLoading: true,
       }
-    case types.ADD_CUSTOMERS:
+    case types.ADD_CUSTOMER:
       return {
         ...state,
         customers: [...state.customers, payload],
       }
-    case types.DELETE_CUSTOMERS:
+    case types.DELETE_CUSTOMER:
       return {
         ...state,
-        customers: state.customers.filter((customer) => customer._id !== payload),
+        customers: state.customers.filter(
+          (customer) => customer._id !== payload
+        ),
       }
 
-    case types.UPDATE_CUSTOMERS:
-      const newcustomers = state.customers.map((customer) =>
+    case types.UPDATE_CUSTOMER:
+      const newCustomers = state.customers.map((customer) =>
         customer._id === payload._id ? payload : customer
       )
       return {
         ...state,
-        customers: newcustomers,
+        customers: newCustomers,
       }
-    case types.FIND_CUSTOMERS:
+    case types.FIND_CUSTOMER:
       return {
         ...state,
         customer: payload,
@@ -54,4 +56,4 @@ const customersReducer = (state = initialState, action) => {
   }
 }
 
-export default customersReducer
+export default customerReducer

@@ -1,56 +1,55 @@
-import * as types from "../constants/CustomersConstant"
+import * as types from "../constants/customerConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-//import { BASE_API_URL } from "./../constants/api"
-//import { LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL cus
-export const getAllCustomers = () => {
+export const getAllCustomer = () => {
   return async (dispatch) => {
     try {
-      dispatch({ type: types.SET_CUSTOMERS_LOADING, payload: true })
+      dispatch({ type: types.SET_CUSTOMER_LOADING, payload: true })
 
-      const response = await axios.get(`https://dth-soft-app.herokuapp.com/api/customer`)
+      const response = await axios.get(`${HOST_API_URL}/customer`)
       if (response.data.success) {
         dispatch({
-          type: types.GET_ALL_CUSTOMERS,
+          type: types.GET_ALL_CUSTOMER,
           payload: response.data.customers,
         })
       }
     } catch (error) {
       toast.error(error)
-      dispatch({ type: types.SET_CUSTOMERS_ERROR })
+      dispatch({ type: types.SET_CUSTOMER_ERROR })
     }
   }
 }
 
 // READ 1 cus
-export const findCustomers = (id) => {
+export const findCustomer = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`https://dth-soft-app.herokuapp.com/api/customer/${id}`)
+      const response = await axios.get(`${HOST_API_URL}/customer/${id}`)
 
       if (response.data.success) {
         dispatch({
-          type: types.FIND_CUSTOMERS,
+          type: types.FIND_CUSTOMER,
           payload: response.data.customer,
         })
       }
     } catch (error) {
-      dispatch({ type: types.SET_CUSTOMERS_ERROR })
+      dispatch({ type: types.SET_CUSTOMER_ERROR })
       toast.error("Sever Error")
     }
   }
 }
 
 // ADD cus
-export const addCustomers = (newCustomers) => {
+export const addCustomer = (newCustomer) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`https://dth-soft-app.herokuapp.com/api/customer`, newCustomers)
+      const response = await axios.post(`${HOST_API_URL}/customer`, newCustomer)
       if (response.data.success) {
         dispatch({
-          type: types.ADD_CUSTOMERS,
+          type: types.ADD_CUSTOMER,
           payload: response.data.customer,
         })
         toast.success(response.data.message)
@@ -61,14 +60,14 @@ export const addCustomers = (newCustomers) => {
   }
 }
 
-// DELETE cuss
-export const deleteCustomers = (id) => {
+// DELETE CUSTOMER
+export const deleteCustomer = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`https://dth-soft-app.herokuapp.com/api/customer/delete/${id}`)
+      const response = await axios.put(`${HOST_API_URL}/customer/delete/${id}`)
       if (response.data.success) {
         dispatch({
-          type: types.DELETE_CUSTOMERS,
+          type: types.DELETE_CUSTOMER,
           payload: id,
         })
         toast.success(response.data.message)
@@ -79,17 +78,17 @@ export const deleteCustomers = (id) => {
   }
 }
 
-export const updateCustomer = (updateCustomer) => {
+export const updateCustomer = (updateCustomer, id) => {
   return async (dispatch) => {
     try {
-      console.log("updateCustomer",updateCustomer)
+      console.log("updateCustomer", updateCustomer)
       const response = await axios.put(
-        `https://dth-soft-app.herokuapp.com/api/customer/update/${updateCustomer._id}`,
+        `${HOST_API_URL}/customer/update/${id}`,
         updateCustomer
       )
       if (response.data.success) {
         dispatch({
-          type: types.UPDATE_CUSTOMERS,
+          type: types.UPDATE_CUSTOMER,
           payload: response.data.updatedCustomer,
         })
         toast.success(response.data.message)

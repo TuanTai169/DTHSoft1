@@ -1,30 +1,30 @@
-import React, { useEffect } from "react"
-import "./layout.css"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import themeAction from "../../redux/actions/themeAction"
+import React, { useEffect } from "react";
+import "./layout.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import themeAction from "../../redux/actions/themeAction";
 
-import Sidebar from "../Sidebar/Sidebar"
-import TopNav from "../Topnav/Topnav"
+import Sidebar from "../Sidebar/Sidebar";
+import TopNav from "../Topnav/TopNav";
 
-import Dashboard from "../../containers/Dashboard/Dashboard"
-import Customers from "../../containers/Customer/Customers"
-import Services from "../../containers/Service/Services"
-import Rooms from "../../containers/Room/Rooms"
-import Users from "../../containers/User/Users"
-import NotFound from "../Common/NotFound/NotFound"
+import Dashboard from "../../containers/Dashboard/Dashboard";
+import Customers from "../../containers/Customer/Customers";
+import Services from "../../containers/Service/Services";
+import Rooms from "../../containers/Room/Rooms";
+import Users from "../../containers/User/Users";
+import NotFound from "../Common/NotFound/NotFound";
 
 const Layout = () => {
-  const themeReducer = useSelector((state) => state.themeReducer)
+  const themeReducer = useSelector((state) => state.themeReducer);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const themeClass = localStorage.getItem("themeMode", "theme-mode-light")
-    const colorClass = localStorage.getItem("colorMode", "theme-mode-light")
-    dispatch(themeAction.setMode(themeClass))
-    dispatch(themeAction.setColor(colorClass))
-  }, [dispatch])
+    const themeClass = localStorage.getItem("themeMode", "theme-mode-light");
+    const colorClass = localStorage.getItem("colorMode", "theme-mode-light");
+    dispatch(themeAction.setMode(themeClass));
+    dispatch(themeAction.setColor(colorClass));
+  }, [dispatch]);
 
   return (
     <>
@@ -53,7 +53,7 @@ const Layout = () => {
         />
       </Router>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

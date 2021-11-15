@@ -1,28 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Button, ButtonToolbar, Spinner } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { getAllUser } from '../../redux/actions/userAction'
+import { useSelector } from "react-redux"
 import Pagination from "../../components/Common/Pagination/Pagination"
 import UserTable from "./UserTable"
 import AddUserModal from "./AddUserModal"
 
 function Users() {
-
   const [currentPage, setCurrentPage] = useState(1)
   const [isOpen, setIsOpen] = useState(false)
 
   //GET LIST CUS
   const users = useSelector((state) => state.userReducer.users)
-  users.sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
-  const isLoading = useSelector(
-    (state) => state.userReducer.isUserLoading
-  )
+  users.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
+  const isLoading = useSelector((state) => state.userReducer.isUserLoading)
   const roles = useSelector((state) => state.auth.user.roles)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(getAllUser())
-  }, [dispatch])
 
   const totalItems = users.length
   const limit = 6
@@ -42,7 +33,6 @@ function Users() {
     [setCurrentPage]
   )
 
-
   return (
     <div>
       <>
@@ -54,7 +44,7 @@ function Users() {
           <div className="page">
             <div className="page__header">
               <div className="page__title">
-                <h3>USER LIST</h3>
+                <h3>Users</h3>
               </div>
               <div className="page__action">
                 <ButtonToolbar>
@@ -66,12 +56,11 @@ function Users() {
                     Add user
                   </Button>
                   {
-                  <AddUserModal
-                    show={isOpen}
-                    handlerModalClose={handlerModalClose}
-                  />
+                    <AddUserModal
+                      show={isOpen}
+                      handlerModalClose={handlerModalClose}
+                    />
                   }
-                  
                 </ButtonToolbar>
               </div>
             </div>

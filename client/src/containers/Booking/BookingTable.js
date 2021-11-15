@@ -8,11 +8,10 @@ const BookingTable = (props) => {
   const tableHead = [
     "#ID",
     "Customer",
-    "Phone",
     "Room",
     "Check in",
     "Check out",
-    "action",
+    "Action",
   ]
   const renderHead = tableHead.map((item, index) => {
     return <th key={index}>{item}</th>
@@ -24,11 +23,15 @@ const BookingTable = (props) => {
           <tr>{renderHead}</tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => (
-            <tr key={booking._id}>
-              <BookingItem booking={booking} />
-            </tr>
-          ))}
+          {Array.isArray(bookings) && bookings.length ? (
+            bookings.map((booking) => (
+              <tr key={booking._id}>
+                <BookingItem booking={booking} />
+              </tr>
+            ))
+          ) : (
+            <h5>No Booking</h5>
+          )}
         </tbody>
       </Table>
     </>

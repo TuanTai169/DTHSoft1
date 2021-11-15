@@ -67,14 +67,8 @@ const BookingSchema = new Schema(
     },
     services: [
       {
-        service: {
-          type: Schema.Types.ObjectId,
-          ref: "services",
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-        },
+        type: Schema.Types.ObjectId,
+        ref: "services",
       },
     ],
     customer: {

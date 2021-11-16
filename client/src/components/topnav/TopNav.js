@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button } from "react-bootstrap"
 import male_avatar from "../../assets/images/male_avatar.png"
 import { logout } from "../../redux/actions/authAction"
+import Customers from "../../containers/Customer/Customers"
 
 const renderNotificationItem = (item, index) => (
   <div className="notification-item" key={index}>
@@ -65,7 +66,8 @@ const Topnav = () => {
             badge="12"
             contentData={notifications}
             renderItems={(item, index) => renderNotificationItem(item, index)}
-            renderFooter={() => <Link to="/">View All</Link>}
+            renderFooter={() => <Link to="/customers">View All</Link>}
+            
           />
           {/* dropdown here */}
         </div>

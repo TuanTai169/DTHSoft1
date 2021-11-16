@@ -12,6 +12,7 @@ import Customers from "../../containers/Customer/Customers";
 import Services from "../../containers/Service/Services";
 import Rooms from "../../containers/Room/Rooms";
 import Users from "../../containers/User/Users";
+import Profile from "../../containers/Profile/Profile";
 import NotFound from "../Common/NotFound/NotFound";
 
 const Layout = () => {
@@ -44,6 +45,7 @@ const Layout = () => {
                     <Route path="/services" component={Services} />
                     <Route path="/room-diagram" component={Rooms} />
                     <Route path="/users" component={Users} />
+                    <Route path="/profile" component={Profile} />
                     <Route path="*" component={NotFound} />
                   </Switch>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { Button, ButtonToolbar, Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import Pagination from "../../components/Common/Pagination/Pagination"
@@ -25,6 +25,7 @@ function Users() {
   )
 
   const handlerModalClose = () => setIsOpen(false)
+
   const onChangedPage = useCallback(
     (event, page) => {
       event.preventDefault()

@@ -46,7 +46,7 @@ const Layout = () => {
                     <Route path="/room-diagram" component={Rooms} />
                     <Route path="/users" component={Users} />
                     <Route path="/profile" component={Profile} />
-                    <Route path="*" component={NotFound} />
+                    <Route path="/*" component={NotFound} />
                   </Switch>
                 </div>
               </div>

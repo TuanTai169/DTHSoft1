@@ -26,6 +26,8 @@ const InfoRoomModal = (props) => {
     item.rooms.find((room) => room.roomNumber === roomNumber)
   )
 
+  const getBookingId = booking.map((item) => item._id)
+
   const renderTable = booking.map((item) => {
     const { code, customer, checkInDate, checkOutDate, deposit, totalPrice } =
       item
@@ -153,7 +155,11 @@ const InfoRoomModal = (props) => {
               </Button>
             </>
           )}
-          <RoomActionButton room={room} handlerModalClose={handlerModalClose} />
+          <RoomActionButton
+            room={room}
+            getBookingId={getBookingId.toString()}
+            handlerModalClose={handlerModalClose}
+          />
           <EditRoomModal
             show={isOpenEditModal}
             handlerEditModalClose={handlerEditModalClose}

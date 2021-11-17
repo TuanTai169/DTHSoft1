@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 const BookingItem = (props) => {
   const { booking } = props
   const dispatch = useDispatch()
+
   const [isOpenViewModal, setIsOpenViewModal] = useState(false)
   const [conformDialog, setConformDialog] = useState({
     isOpenDialog: false,
@@ -42,14 +43,14 @@ const BookingItem = (props) => {
         </Button>{" "}
         <Button
           variant="danger"
-          onClick={() =>
+          onClick={() => {
             setConformDialog({
               isOpenDialog: true,
               title: "Cancelled Booking",
               message: "Are you sure cancel this booking?",
               onConform: () => handlerCancel(booking._id),
             })
-          }
+          }}
         >
           <i className="bx bx-x-circle" style={{ color: "#fff" }}></i>
         </Button>

@@ -167,6 +167,9 @@ table {
 .page__body {
   min-height: 390px;
 }
-.modal-90w {
+.modal-80w {
   max-width: 80%;
+}
+.modal-60w {
+  max-width: 60%;
 }

@@ -1,7 +1,7 @@
-import * as types from "../constants/userConstant"
-import axios from "axios"
-import { toast } from "react-toastify"
-import { HOST_API_URL } from "./../constants/api"
+import * as types from "../constants/userConstant";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { HOST_API_URL } from "./../constants/api";
 
 // READ ALL USER
 
@@ -45,6 +45,7 @@ export const updateUser = (updateUser, id) => {
   }
 }
 
+
 // DELETE USER
 export const deleteUser = (id) => {
   return async (dispatch) => {
@@ -63,16 +64,17 @@ export const deleteUser = (id) => {
   }
 }
 
+
 // ADD USER
 export const addUser = (newUser) => {
   return async (dispatch) => {
     try {
-      console.log(newUser)
       const response = await axios.post(`${HOST_API_URL}/user`, newUser)
       if (response.data.success) {
         dispatch({
           type: types.ADD_USER,
           payload: response.data.newUser,
+
         })
         toast.success(response.data.message)
       }
@@ -81,3 +83,4 @@ export const addUser = (newUser) => {
     }
   }
 }
+

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../redux/actions/authAction"
 import { Spinner } from "react-bootstrap"
 import { Redirect } from "react-router"
+import { Link } from "react-router-dom"
+import logo from "../../assets/images/logo.png"
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -27,8 +29,10 @@ const Login = () => {
   else if (isAuthenticated) return <Redirect to="/" />
   return (
     <div className="login-page">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <div className="logo">
+        <img src={logo} alt="company logo" />
+      </div>     
+      <form onSubmit={handleSubmit}>      
         <div>
           <label htmlFor="email">Email:</label>
           <input
@@ -51,7 +55,10 @@ const Login = () => {
             name="password"
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="row">
+          <button type="submit">Login</button>
+          <Link to="/forgot_password" >Forgot your password</Link>
+        </div>       
       </form>
     </div>
   )

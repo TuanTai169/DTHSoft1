@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import ProtectedRoute from "./routing/ProtectedRoute"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 function App() {
   const dispatch = useDispatch()
@@ -22,7 +23,6 @@ function App() {
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/" component={Layout} />
           <Route exact path="/forgot_password" component={ForgotPassword} />
-          
         </Switch>
       </HashRouter>
       <ToastContainer autoClose={3000} theme="colored" />

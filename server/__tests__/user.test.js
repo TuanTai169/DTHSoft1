@@ -6,6 +6,7 @@ let token
 beforeAll(() => {
   process.env.NODE_ENV = "test"
 })
+
 beforeEach(async () => {
   const user = { email: "admin@gmail.com", password: "12345678" }
   const response = await request(app).post("/api/auth/login").send(user)

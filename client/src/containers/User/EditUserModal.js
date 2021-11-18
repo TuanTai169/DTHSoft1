@@ -1,11 +1,9 @@
 import React, { useState } from "react"
-import { Form, Modal, Button, Row, Col, FloatingLabel } from "react-bootstrap"
+import { Form, Modal, Button, FloatingLabel } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { updateUser } from "../../redux/actions/userAction"
 
-
 function EditUserModal(props) {
-
   const { show, handlerModalClose, user } = props
   const dispatch = useDispatch()
 
@@ -29,7 +27,7 @@ function EditUserModal(props) {
     dispatch(updateUser(editUser, user._id))
     console.log(editUser)
   }
-  
+
   const resetAddPostData = () => {
     handlerModalClose()
     setEditUser({
@@ -41,17 +39,31 @@ function EditUserModal(props) {
     })
   }
 
-  const { name, email, phone, address, image} = editUser
+  const { name, email, phone, address, image } = editUser
 
   return (
     <div>
       <Modal show={show} onHide={resetAddPostData} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit User {name}</Modal.Title>
+          <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
-          <FloatingLabel
+            <FloatingLabel
+              controlId="floatingName"
+              label="Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={name || ""}
+                onChange={onChangeNewForm}
+                required
+              />
+            </FloatingLabel>
+            <FloatingLabel
               controlId="floatingEmail"
               label="Email"
               className="mb-3"
@@ -68,55 +80,19 @@ function EditUserModal(props) {
             </FloatingLabel>
 
             <FloatingLabel
-              controlId="floatingName"
-              label="Name"
+              controlId="floatingPhone"
+              label="Phone"
               className="mb-3"
             >
               <Form.Control
                 type="text"
-                placeholder="Name"
-                name="name"
-                value={name || ""}
+                placeholder="Phone Number"
+                name="phone"
+                value={phone || ""}
                 onChange={onChangeNewForm}
                 required
               />
             </FloatingLabel>
-
-            <Row>
-              <Col>
-                <FloatingLabel
-                  controlId="floatingPhone"
-                  label="Phone"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Phone Number"
-                    name="phone"
-                    value={phone || ""}
-                    onChange={onChangeNewForm}
-                    required
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="floatingImage"
-                  label="Image"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Image"
-                    name="image"
-                    value={image || ""}
-                    onChange={onChangeNewForm}
-                    required
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            
             <FloatingLabel
               controlId="floatingAddress"
               label="Address"

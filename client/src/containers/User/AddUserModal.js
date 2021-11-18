@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { Form, Modal, FloatingLabel, Button, Row, Col } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addUser } from "../../redux/actions/userAction";
+
+import React, { useState } from "react"
+import { Form, Modal, FloatingLabel, Button, Row, Col } from "react-bootstrap"
+import { useDispatch } from "react-redux"
+import { addUser } from "../../redux/actions/userAction"
 
 const AddUserModal = (props) => {
-  const { show, handlerModalClose } = props;
-  const dispatch = useDispatch();
+  const { show, handlerModalClose } = props
+  const dispatch = useDispatch()
+
 
   const [newUser, setNewUser] = useState({
     name: "",
@@ -14,7 +16,8 @@ const AddUserModal = (props) => {
     phone: "",
     address: "",
     roles: "",
-  });
+
+  })
 
   const onChangeNewForm = (event) =>
     setNewUser({
@@ -23,10 +26,11 @@ const AddUserModal = (props) => {
     });
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    resetAddPostData();
-    dispatch(addUser(newUser));
-  };
+    e.preventDefault()
+    resetAddPostData()
+
+    dispatch(addUser(newUser))
+  }
 
   const resetAddPostData = () => {
     setNewUser({
@@ -37,11 +41,11 @@ const AddUserModal = (props) => {
       address: "",
       image: "",
       roles: "",
-    });
-    handlerModalClose();
-  };
+    })
+    handlerModalClose()
+  }
 
-  const { name, email, password, phone, address, roles, image } = newUser;
+  const { name, email, password, phone, address, roles, image } = newUser
 
   return (
     <>
@@ -58,7 +62,7 @@ const AddUserModal = (props) => {
             >
               <Form.Control
                 type="text"
-                placeholder="Name"
+        placeholder="Name"
                 name="name"
                 value={name || ""}
                 onChange={onChangeNewForm}
@@ -67,6 +71,7 @@ const AddUserModal = (props) => {
             </FloatingLabel>
 
             <FloatingLabel
+
               controlId="floatingEmail"
               label="Email"
               className="mb-3"
@@ -80,7 +85,6 @@ const AddUserModal = (props) => {
                 required
               />
             </FloatingLabel>
-
             <FloatingLabel
               controlId="floatingPassword"
               label="Password"
@@ -95,7 +99,6 @@ const AddUserModal = (props) => {
                 required
               />
             </FloatingLabel>
-
             <Row>
               <Col>
                 <FloatingLabel
@@ -128,7 +131,7 @@ const AddUserModal = (props) => {
                     required
                   >
                     <option>--</option>
-                    <option value="ADMIN">ADMIN</option>
+                    {role === "ADMIN" && <option value="ADMIN">ADMIN</option>}
                     <option value="MANAGER">MANAGER</option>
                     <option value="EMPLOYEE">EMPLOYEE</option>
                   </Form.Select>
@@ -147,6 +150,7 @@ const AddUserModal = (props) => {
                 placeholder="Image"
                 value={image || ""}
                 onChange={onChangeNewForm}
+                required
               />
             </FloatingLabel>
             <FloatingLabel
@@ -175,7 +179,9 @@ const AddUserModal = (props) => {
         </Form>
       </Modal>
     </>
-  );
-};
+
+  )
+}
+
 
 export default AddUserModal;

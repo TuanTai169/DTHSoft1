@@ -17,6 +17,8 @@ import { getAllBooking } from "../../redux/actions/bookingAction"
 import { getAllCustomer } from "../../redux/actions/customerAction"
 import { getAllRoom } from "../../redux/actions/roomAction"
 import { getAllService } from "../../redux/actions/serviceAction"
+import { getAllUser } from "../../redux/actions/userAction"
+import { getAllReceipt } from "../../redux/actions/receiptAction"
 
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer)
@@ -32,6 +34,8 @@ const Layout = () => {
     dispatch(getAllCustomer())
     dispatch(getAllBooking())
     dispatch(getAllService())
+    dispatch(getAllUser())
+    dispatch(getAllReceipt())
   }, [dispatch])
 
   return (

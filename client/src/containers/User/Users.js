@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { Button, ButtonToolbar, Spinner } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllUser } from "../../redux/actions/userAction"
@@ -31,6 +31,7 @@ function Users() {
   )
 
   const handlerModalClose = () => setIsOpen(false)
+
   const onChangedPage = useCallback(
     (event, page) => {
       event.preventDefault()

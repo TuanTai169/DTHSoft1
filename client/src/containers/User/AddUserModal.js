@@ -1,13 +1,12 @@
-
 import React, { useState } from "react"
 import { Form, Modal, FloatingLabel, Button, Row, Col } from "react-bootstrap"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addUser } from "../../redux/actions/userAction"
 
 const AddUserModal = (props) => {
   const { show, handlerModalClose } = props
   const dispatch = useDispatch()
-
+  const role = useSelector((state) => state.auth.user.roles)
 
   const [newUser, setNewUser] = useState({
     name: "",
@@ -16,14 +15,13 @@ const AddUserModal = (props) => {
     phone: "",
     address: "",
     roles: "",
-
   })
 
   const onChangeNewForm = (event) =>
     setNewUser({
       ...newUser,
       [event.target.name]: event.target.value,
-    });
+    })
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -62,7 +60,7 @@ const AddUserModal = (props) => {
             >
               <Form.Control
                 type="text"
-        placeholder="Name"
+                placeholder="Name"
                 name="name"
                 value={name || ""}
                 onChange={onChangeNewForm}
@@ -71,7 +69,6 @@ const AddUserModal = (props) => {
             </FloatingLabel>
 
             <FloatingLabel
-
               controlId="floatingEmail"
               label="Email"
               className="mb-3"
@@ -179,9 +176,7 @@ const AddUserModal = (props) => {
         </Form>
       </Modal>
     </>
-
   )
 }
 
-
-export default AddUserModal;
+export default AddUserModal

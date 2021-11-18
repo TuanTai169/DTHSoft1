@@ -1,7 +1,7 @@
-import * as types from "../constants/userConstant";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { HOST_API_URL } from "./../constants/api";
+import * as types from "../constants/userConstant"
+import axios from "axios"
+import { toast } from "react-toastify"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL USER
 
@@ -45,6 +45,27 @@ export const updateUser = (updateUser, id) => {
   }
 }
 
+//update Profile user
+
+export const updateProfile = (updateUser, id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${HOST_API_URL}/user/update-profile/${id}`,
+        updateUser
+      )
+      if (response.data.success) {
+        dispatch({
+          type: types.UPDATE_USER,
+          payload: response.data.updatedUser,
+        })
+        toast.success(response.data.message)
+      }
+    } catch (error) {
+      toast.error(error.response.message)
+    }
+  }
+}
 
 // DELETE USER
 export const deleteUser = (id) => {
@@ -64,7 +85,6 @@ export const deleteUser = (id) => {
   }
 }
 
-
 // ADD USER
 export const addUser = (newUser) => {
   return async (dispatch) => {
@@ -74,7 +94,6 @@ export const addUser = (newUser) => {
         dispatch({
           type: types.ADD_USER,
           payload: response.data.newUser,
-
         })
         toast.success(response.data.message)
       }
@@ -83,4 +102,3 @@ export const addUser = (newUser) => {
     }
   }
 }
-

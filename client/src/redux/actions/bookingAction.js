@@ -1,7 +1,7 @@
 import * as types from "../constants/bookingConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOST_API_URL, LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL BOOKING
 export const getAllBooking = () => {
@@ -49,7 +49,7 @@ export const updateBooking = (updateBooking) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${HOST_API_URL}/room/update/${updateBooking._id}`,
+        `${HOST_API_URL}/booking/update/${updateBooking._id}`,
         updateBooking
       )
       if (response.data.success) {
@@ -90,7 +90,7 @@ export const changeRoom = (bookingId, startRoom, endRoom) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${LOCAL_API_URL}/booking/change-room/${bookingId}/${startRoom}/${endRoom}`
+        `${HOST_API_URL}/booking/change-room/${bookingId}/${startRoom}/${endRoom}`
       )
       if (response.data.success) {
         dispatch({

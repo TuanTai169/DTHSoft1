@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux"
 import lodash from "lodash"
 import { changeRoom } from "./../../redux/actions/bookingAction"
 import DialogChange from "../../components/Dialog/DialogChange"
-import { changeStatusRoom } from "../../redux/actions/roomAction"
 
 const ViewAllRoomModal = (props) => {
   const {
@@ -13,7 +12,7 @@ const ViewAllRoomModal = (props) => {
     handlerParentModalClose,
     roomChoose,
     getRoom,
-    getBookingId,
+    bookingId,
   } = props
   const [roomChange, setRoomChange] = useState("")
   const [roomSelect, setRoomSelect] = useState([])
@@ -34,7 +33,6 @@ const ViewAllRoomModal = (props) => {
 
   //Selected Room
   const selectedRoom = (e, room) => {
-    //getRoom(room)
     if (e.target.style.backgroundColor.toString() === "rgb(255, 255, 255)") {
       const exitsRoom = roomSelect.some((item) => item._id === room._id)
       if (!exitsRoom) {
@@ -49,19 +47,21 @@ const ViewAllRoomModal = (props) => {
   }
   //Change Room
   const selectedChangeRoom = (e, room) => {
-    e.target.style.backgroundColor = "#7fff00"
-    setRoomChange(room)
+    if (e.target.style.backgroundColor.toString() === "rgb(255, 255, 255)") {
+      setRoomChange(room)
+      e.target.style.backgroundColor = "#7fff00"
+    } else {
+      setRoomChange("")
+      e.target.style.backgroundColor = "#fff"
+    }
   }
 
   const onChangeRoomSubmit = () => {
-    dispatch(changeRoom(getBookingId, roomChoose._id, roomChange._id))
-    dispatch(changeStatusRoom(roomChoose._id, "ready"))
-    dispatch(changeStatusRoom(roomChange._id, "occupied"))
+    dispatch(changeRoom(bookingId, roomChoose._id, roomChange._id))
     resetModal()
     handlerParentModalClose()
   }
   const submitArrayRoom = () => {
-    console.log(roomSelect)
     roomSelect.forEach((item) => getRoom(item))
     resetModal()
   }

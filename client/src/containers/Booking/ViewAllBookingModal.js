@@ -11,8 +11,9 @@ const ViewAllBookingModal = (props) => {
 
   // GET ALL BOOKING
   const bookings = useSelector((state) => state.bookingReducer.bookings)
+  const receipts = useSelector((state) => state.receiptReducer.receipts)
 
-  useEffect(() => dispatch(getAllRoom()), [dispatch, bookings])
+  useEffect(() => dispatch(getAllRoom()), [dispatch, bookings, receipts])
 
   // BOOKING GROUP BY BOOKING
   const bookingGroupBy = lodash.groupBy(bookings, "status")

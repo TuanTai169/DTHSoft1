@@ -173,3 +173,8 @@ table {
 .modal-60w {
   max-width: 60%;
 }
+.form-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

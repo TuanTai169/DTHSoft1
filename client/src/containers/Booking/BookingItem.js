@@ -11,6 +11,7 @@ const BookingItem = (props) => {
   const dispatch = useDispatch()
 
   const [isOpenViewModal, setIsOpenViewModal] = useState(false)
+
   const [conformDialog, setConformDialog] = useState({
     isOpenDialog: false,
     title: "",
@@ -23,6 +24,7 @@ const BookingItem = (props) => {
   const checkOutDateConvert = convertStringToDate(checkOutDate)
 
   const handlerViewModalClose = () => setIsOpenViewModal(false)
+
   const handlerCancel = (id) => {
     dispatch(cancelledBooking(id))
   }

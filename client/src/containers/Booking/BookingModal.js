@@ -288,9 +288,9 @@ const BookingModal = (props) => {
               <ServiceForm services={services} />
             </Row>
             <p>
-              Total Price:{" "}
+              Total Price (USA):{" "}
               <strong style={{ color: "red", fontSize: "20px" }}>
-                $ {totalPrice > 0 ? totalPrice : 0}
+                {totalPrice > 0 ? totalPrice : 0}
               </strong>{" "}
             </p>
           </Modal.Body>

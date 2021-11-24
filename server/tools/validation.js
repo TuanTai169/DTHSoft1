@@ -10,7 +10,6 @@ const userValidation = (data) => {
     password: Joi.string().min(8).required(),
     phone: Joi.string().min(10),
     address: Joi.string(),
-    image: Joi.string(),
     roles: Joi.string(),
   })
   return schema.validate(data)
@@ -22,7 +21,7 @@ const customerValidation = (data) => {
     name: Joi.string().min(6).required(),
     email: Joi.string().min(10).required().email(),
     phone: Joi.string().min(10).max(10).required(),
-    cmnd: Joi.string(),
+    cmnd: Joi.string().min(9).max(12).required(),
     address: Joi.string(),
     gender: Joi.string(),
     birthDate: Joi.date(),
@@ -48,6 +47,7 @@ const receiptValidation = (data) => {
     booking: Joi.objectId(),
     paidOut: Joi.number().required().min(0),
     refund: Joi.number(),
+    modeOfPayment: Joi.string(),
   })
   return schema.validate(data)
 }

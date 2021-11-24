@@ -16,6 +16,7 @@ const CustomerSchema = new Schema(
     phone: {
       type: String,
       required: true,
+      unique: true,
     },
     address: {
       type: String,
@@ -23,6 +24,7 @@ const CustomerSchema = new Schema(
     cmnd: {
       type: String,
       min: 12,
+      unique: true,
     },
     gender: {
       type: String,

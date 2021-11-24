@@ -53,7 +53,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 // @decs CREATE user
 // @access Private
 router.post("/", verifyToken, checkManager, async (req, res) => {
-  const { name, email, password, phone, address, image, roles } = req.body
+  const { name, email, password, phone, address, roles } = req.body
 
   //Validation
   const { error } = userValidation(req.body)
@@ -79,7 +79,6 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
       password: hashedPassword,
       phone: phone || "",
       address: address || "",
-      image: image || "",
       roles: roles || "EMPLOYEE",
       createBy: req.userId,
       updateBy: null,
@@ -111,13 +110,13 @@ router.post("/", verifyToken, checkManager, async (req, res) => {
 // @decs UPDATE PROFILE
 // @access Private
 router.put(`/update-profile/:id`, verifyToken, async (req, res) => {
-  const { name, email, password, phone, address, image } = req.body
+  const { name, password, phone, address, image } = req.body
 
   //Simple Validation
-  if (!name || !email)
+  if (!name || !password)
     return res.status(400).json({
       success: false,
-      message: "Name and email are required",
+      message: "Name and password are required",
     })
 
   try {
@@ -127,7 +126,6 @@ router.put(`/update-profile/:id`, verifyToken, async (req, res) => {
 
     let updateUser = {
       name: name,
-      email: email,
       password: hashedPassword,
       phone: phone,
       address: address,
@@ -147,6 +145,7 @@ router.put(`/update-profile/:id`, verifyToken, async (req, res) => {
       updatedUser,
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -262,37 +261,48 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 })
 
-router.post(`/upload-avatar`, uploadImage, verifyToken, async (req, res) => {
-  try {
-    const file = req.files.file
+router.post(
+  `/upload-avatar/:id`,
+  uploadImage,
+  verifyToken,
+  async (req, res) => {
+    try {
+      const file = req.files.file
 
-    cloudinary.v2.uploader.upload(
-      file.tempFilePath,
-      {
-        folder: "avatar",
-        width: 150,
-        height: 150,
-        crop: "fill",
-      },
-      async (err, result) => {
-        if (err) throw err
+      cloudinary.v2.uploader.upload(
+        file.tempFilePath,
+        {
+          folder: "avatar",
+          width: 150,
+          height: 150,
+          crop: "fill",
+        },
+        async (err, result) => {
+          if (err) throw err
 
-        removeTmp(file.tempFilePath)
+          removeTmp(file.tempFilePath)
 
-        res.json({
-          success: true,
-          message: "Upload file successfully !",
-          url: result.secure_url,
-        })
-      }
-    )
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    })
+          const pathImage = result.secure_url
+          const userUpdateCondition = { _id: req.params.id }
+          const updated = { image: pathImage, updateBy: req.userId }
+          await User.findOneAndUpdate(userUpdateCondition, updated, {
+            new: true,
+          })
+          res.json({
+            success: true,
+            message: "Upload file successfully !",
+            url: pathImage,
+          })
+        }
+      )
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      })
+    }
   }
-})
+)
 
 const removeTmp = (path) => {
   fs.unlink(path, (err) => {

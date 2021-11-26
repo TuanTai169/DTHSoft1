@@ -271,7 +271,7 @@ thead th.descending::after {
   font-size: 100px;
   position: absolute;
   top: 40%;
-  left: 50%;
+  left: 45%;
   z-index: 10000;
 }
 
@@ -282,4 +282,33 @@ thead th.descending::after {
 .status-check-in {
   color: red !important;
   font-weight: 600 !important;
+}
+
+/* Scroll To Top */
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  color: #fff;
+  animation: fadeIn 700ms ease-in-out 1s both;
+  cursor: pointer;
+}
+.scroll-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--main-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

@@ -19,6 +19,7 @@ import { getAllRoom } from "../../redux/actions/roomAction"
 import { getAllService } from "../../redux/actions/serviceAction"
 import { getAllUser } from "../../redux/actions/userAction"
 import { getAllReceipt } from "../../redux/actions/receiptAction"
+import { getStatistic } from "./../../redux/actions/receiptAction"
 
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer)
@@ -36,6 +37,7 @@ const Layout = () => {
     dispatch(getAllService())
     dispatch(getAllUser())
     dispatch(getAllReceipt())
+    dispatch(getStatistic())
   }, [dispatch])
 
   return (

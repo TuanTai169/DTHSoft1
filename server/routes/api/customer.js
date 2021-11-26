@@ -19,12 +19,21 @@ router.post("/", verifyToken, async (req, res) => {
     })
   try {
     //Check for existing email
-    const emailExist = await Customer.findOne({ email })
+    const emailExist = await Customer.findOne({ email, isActive: true })
     if (emailExist)
       return res.status(409).json({
         success: false,
         message: "Email already taken",
       })
+
+    //Check for existing Id number
+    const cmndExist = await Customer.findOne({ cmnd, isActive: true })
+    if (cmndExist)
+      return res.status(409).json({
+        success: false,
+        message: "Id Number already taken",
+      })
+
     //All good
     const newCustomer = new Customer({
       name,

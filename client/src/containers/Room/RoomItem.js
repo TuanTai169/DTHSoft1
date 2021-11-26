@@ -25,7 +25,9 @@ const RoomItem = (props) => {
               ? "#0FF"
               : "#fff",
         }}
-        onClick={() => setIsInfoOpen(true)}
+        onClick={() => {
+          setIsInfoOpen(true)
+        }}
       >
         <div className="status-card__info">
           <h4>{roomNumber}</h4>

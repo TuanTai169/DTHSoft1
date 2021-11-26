@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Form, Modal, Button } from "react-bootstrap"
+import { Form, Modal, Button, FloatingLabel } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { updateService } from "./../../redux/actions/serviceAction"
 
@@ -20,6 +20,7 @@ const EditServiceModal = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     resetEditPostData()
+    console.log(editService)
     dispatch(updateService(editService))
   }
 
@@ -36,8 +37,11 @@ const EditServiceModal = (props) => {
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
-            <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>Name</Form.Label>
+            <FloatingLabel
+              controlId="floatingName"
+              label="Name"
+              className="mb-3"
+            >
               <Form.Control
                 type="text"
                 placeholder="Name"
@@ -46,19 +50,22 @@ const EditServiceModal = (props) => {
                 onChange={onChangeNewForm}
                 required
               />
-            </Form.Group>
+            </FloatingLabel>
 
-            <Form.Group className="mb-3" controlId="formBasicPrice">
-              <Form.Label>Price(VND)</Form.Label>
+            <FloatingLabel
+              controlId="floatingPrice"
+              label="Price (USD)"
+              className="mb-3"
+            >
               <Form.Control
-                type="text"
+                type="number"
                 placeholder="0"
                 name="price"
                 value={price || ""}
                 onChange={onChangeNewForm}
                 required
               />
-            </Form.Group>
+            </FloatingLabel>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">

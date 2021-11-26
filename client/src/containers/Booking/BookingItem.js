@@ -9,19 +9,22 @@ import { useDispatch } from "react-redux"
 const BookingItem = (props) => {
   const { booking } = props
   const dispatch = useDispatch()
+
   const [isOpenViewModal, setIsOpenViewModal] = useState(false)
+
   const [conformDialog, setConformDialog] = useState({
     isOpenDialog: false,
     title: "",
     message: "",
   })
 
-  const { code, customer, rooms, checkInDate, checkOutDate } = booking
+  const { code, customer, rooms, checkInDate, checkOutDate, status } = booking
 
   const checkInDateConvert = convertStringToDate(checkInDate)
   const checkOutDateConvert = convertStringToDate(checkOutDate)
 
   const handlerViewModalClose = () => setIsOpenViewModal(false)
+
   const handlerCancel = (id) => {
     dispatch(cancelledBooking(id))
   }
@@ -36,23 +39,31 @@ const BookingItem = (props) => {
       <td>{renderRoom}</td>
       <td>{checkInDateConvert}</td>
       <td>{checkOutDateConvert}</td>
+      <td className={status === "BOOKING" ? "status-book" : "status-check-in"}>
+        {status}
+      </td>
       <td>
         <Button variant="info" onClick={() => setIsOpenViewModal(true)}>
           <i className="bx bx-detail icon-bg" style={{ color: "#fff" }}></i>
         </Button>{" "}
-        <Button
-          variant="danger"
-          onClick={() =>
-            setConformDialog({
-              isOpenDialog: true,
-              title: "Cancelled Booking",
-              message: "Are you sure cancel this booking?",
-              onConform: () => handlerCancel(booking._id),
-            })
-          }
-        >
-          <i className="bx bx-x-circle" style={{ color: "#fff" }}></i>
-        </Button>
+        {status === "BOOKING" && (
+          <Button
+            variant="danger"
+            onClick={() => {
+              setConformDialog({
+                isOpenDialog: true,
+                title: "Cancelled Booking",
+                message: "Are you sure cancel this booking?",
+                onConform: () => handlerCancel(booking._id),
+              })
+            }}
+          >
+            <i
+              className="bx bx-trash-alt icon-bg"
+              style={{ color: "#fff" }}
+            ></i>
+          </Button>
+        )}
         <ViewDetailBookingModal
           show={isOpenViewModal}
           handlerModalClose={handlerViewModalClose}

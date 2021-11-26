@@ -17,6 +17,8 @@ const ViewDetailBookingModal = (props) => {
     deposit,
     discount,
     services,
+    roomCharge,
+    serviceCharge,
     totalPrice,
   } = booking
 
@@ -64,46 +66,58 @@ const ViewDetailBookingModal = (props) => {
                   label="Discount (%)"
                   className="mb-3"
                 >
-                  <Form.Control type="text" value={` ${discount}`} disabled />
+                  <Form.Control type="text" value={discount} disabled />
                 </FloatingLabel>
               </Col>
               <Col>
                 <FloatingLabel
                   controlId="floatingDeposit"
-                  label="Deposit"
+                  label="Deposit (USD)"
                   className="mb-3"
                 >
-                  <Form.Control type="text" value={`$ ${deposit}`} disabled />
+                  <Form.Control type="text" value={deposit} disabled />
                 </FloatingLabel>
               </Col>
             </Row>
             <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
               <Form.Group controlId="formGridCustomer">
-                <Form.Label>Customer</Form.Label>
+                <h5>Customer</h5>
                 <CustomerForm customer={customer} />
               </Form.Group>
             </Row>
             <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
               <Form.Group controlId="formGridRoom">
-                <Form.Label>Room</Form.Label>
+                <div className="form-label">
+                  <h5>Room</h5>
+                  <p>
+                    Price (USD):{" "}
+                    <strong style={{ color: "red" }}>{roomCharge}</strong>
+                  </p>
+                </div>
                 <RoomForm rooms={rooms} />
               </Form.Group>
             </Row>
             <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
               <Form.Group as={Col} controlId="formGridService">
-                <Form.Label>Service</Form.Label>
+                <div className="form-label">
+                  <h5>Service</h5>
+                  <p>
+                    Price (USD):{" "}
+                    <strong style={{ color: "red" }}>{serviceCharge}</strong>
+                  </p>
+                </div>
                 <ServiceForm services={services} />
               </Form.Group>
             </Row>
             <p>
-              Total Price:{" "}
+              Total Price (USD):{" "}
               <strong style={{ color: "red", fontSize: "20px" }}>
-                $ {totalPrice}
-              </strong>{" "}
+                {totalPrice}
+              </strong>
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={handlerModalClose}>
+            <Button variant="secondary" onClick={handlerModalClose}>
               Close
             </Button>
           </Modal.Footer>

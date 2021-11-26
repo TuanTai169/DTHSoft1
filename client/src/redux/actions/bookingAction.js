@@ -15,9 +15,11 @@ export const getAllBooking = () => {
           type: types.GET_ALL_BOOKING,
           payload: response.data.bookings,
         })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      console.log(error)
+      error.response.data && toast.error(error.response.data.message)
       dispatch({ type: types.SET_BOOKING_ERROR })
     }
   }
@@ -27,6 +29,7 @@ export const getAllBooking = () => {
 export const addBooking = (newBooking, status) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: types.SET_BOOKING_LOADING, payload: true })
       const response = await axios.post(
         `${HOST_API_URL}/booking/${status}`,
         newBooking
@@ -36,10 +39,12 @@ export const addBooking = (newBooking, status) => {
           type: types.BOOKING_CHECK_IN,
           payload: response.data.booking,
         })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
         toast.success(response.data.message)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      console.log(error)
+      error.response.data && toast.error(error.response.data.message)
     }
   }
 }
@@ -48,8 +53,9 @@ export const addBooking = (newBooking, status) => {
 export const updateBooking = (updateBooking) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: types.SET_BOOKING_LOADING, payload: true })
       const response = await axios.put(
-        `${HOST_API_URL}/room/update/${updateBooking._id}`,
+        `${HOST_API_URL}/booking/update/${updateBooking._id}`,
         updateBooking
       )
       if (response.data.success) {
@@ -57,6 +63,7 @@ export const updateBooking = (updateBooking) => {
           type: types.UPDATE_BOOKING,
           payload: response.data.updatedBooking,
         })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
         toast.success(response.data.message)
       }
     } catch (error) {
@@ -69,6 +76,7 @@ export const updateBooking = (updateBooking) => {
 export const cancelledBooking = (bookingId) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: types.SET_BOOKING_LOADING, payload: true })
       const response = await axios.put(
         `${HOST_API_URL}/booking/cancelled/${bookingId}`
       )
@@ -77,10 +85,12 @@ export const cancelledBooking = (bookingId) => {
           type: types.CANCELLED_BOOKING,
           payload: bookingId,
         })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
         toast.success(response.data.message)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      console.log(error)
+      error.response.data && toast.error(error.response.data.message)
     }
   }
 }
@@ -89,6 +99,7 @@ export const cancelledBooking = (bookingId) => {
 export const changeRoom = (bookingId, startRoom, endRoom) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: types.SET_BOOKING_LOADING, payload: true })
       const response = await axios.put(
         `${HOST_API_URL}/booking/change-room/${bookingId}/${startRoom}/${endRoom}`
       )
@@ -97,10 +108,35 @@ export const changeRoom = (bookingId, startRoom, endRoom) => {
           type: types.UPDATE_BOOKING,
           payload: response.data.updatedBooking,
         })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
         toast.success(response.data.message)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      console.log(error)
+      error.response.data && toast.error(error.response.data.message)
+    }
+  }
+}
+
+//CHANGE BOOKING TO CHECK IN
+export const changeBookingToCheckIn = (bookingId) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: types.SET_BOOKING_LOADING, payload: true })
+      const response = await axios.put(
+        `${HOST_API_URL}/booking/change-to-check-in/${bookingId}`
+      )
+      if (response.data.success) {
+        dispatch({
+          type: types.UPDATE_BOOKING,
+          payload: response.data.updatedBooking,
+        })
+        dispatch({ type: types.SET_BOOKING_LOADING, payload: false })
+        toast.success(response.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+      error.response.data && toast.error(error.response.data.message)
     }
   }
 }

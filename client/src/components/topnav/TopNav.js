@@ -20,7 +20,7 @@ const renderNotificationItem = (item, index) => (
 const renderUserToggle = (user) => (
   <div className="topnav__right-user">
     <div className="topnav__right-user__image">
-      <img src={male_avatar} alt="avatar" />
+      <img src={user.image ? user.image : male_avatar} alt="avatar" />
     </div>
     <div className="topnav__right-user__name">{user.name}</div>
   </div>
@@ -35,8 +35,9 @@ const renderUserMenu = (item, index) => (
   </Link>
 )
 
-const Topnav = () => {
+const TopNav = () => {
   const user = useSelector((state) => state.auth.user)
+
   const dispatch = useDispatch()
 
   const handlerLogout = () => {
@@ -45,11 +46,7 @@ const Topnav = () => {
 
   return (
     <div className="topnav">
-      <div></div>
-      {/* <div className="topnav__search">
-        <input type="text" placeholder="Search here..." />
-        <i className="bx bx-search"></i>
-      </div> */}
+      <div className="topnav__left"></div>
       <div className="topnav__right">
         <div className="topnav__right-item">
           {/* dropdown here */}
@@ -65,7 +62,7 @@ const Topnav = () => {
             badge="12"
             contentData={notifications}
             renderItems={(item, index) => renderNotificationItem(item, index)}
-            renderFooter={() => <Link to="/">View All</Link>}
+            renderFooter={() => <Link to="/customers">View All</Link>}
           />
           {/* dropdown here */}
         </div>
@@ -87,4 +84,4 @@ const Topnav = () => {
   )
 }
 
-export default Topnav
+export default TopNav

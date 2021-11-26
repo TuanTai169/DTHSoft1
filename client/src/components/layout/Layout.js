@@ -12,6 +12,7 @@ import Services from "../../containers/Service/Services"
 import Rooms from "../../containers/Room/Rooms"
 import Users from "../../containers/User/Users"
 import Profile from "../../containers/Profile/Profile"
+import Receipt from "../../containers/Receipt/Receipt"
 import NotFound from "../Common/NotFound/NotFound"
 import { getAllBooking } from "../../redux/actions/bookingAction"
 import { getAllCustomer } from "../../redux/actions/customerAction"
@@ -54,6 +55,7 @@ const Layout = () => {
               <Route path="/room-diagram" exact element={<Rooms />} />
               <Route path="/users" exact element={<Users />} />
               <Route path="/profile" exact element={<Profile />} />
+              <Route path="/receipt" exact element={<Receipt />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>

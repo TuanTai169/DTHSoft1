@@ -1,28 +1,23 @@
-import React, { useState, useMemo } from "react";
-import { Button, ButtonToolbar, Form, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import ReceiptItem from "./ReceiptItem";
+import React, { useState, useMemo } from "react"
+import { ButtonToolbar, Form, Table } from "react-bootstrap"
+import { useSelector } from "react-redux"
+import ReceiptItem from "./ReceiptItem"
 
-import TableHeader from "../../components/Common/table/TableHeader";
-import PaginationComponent from "../../components/Common/Pagination/PaginationComponent";
-import Search from "./../../components/Common/Search/Search";
-import FullLoading from "../../components/Common/FullLoading/FullLoading";
+import TableHeader from "../../components/Common/table/TableHeader"
+import PaginationComponent from "../../components/Common/Pagination/PaginationComponent"
+import Search from "./../../components/Common/Search/Search"
+import FullLoading from "../../components/Common/FullLoading/FullLoading"
 
 function Receipt() {
-  const [totalItems, setTotalItems] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isOpen, setIsOpen] = useState(false);
-  const [limit, setLimit] = useState(6);
-  const [sorting, setSorting] = useState({ field: "", order: "" });
-  const [search, setSearch] = useState("");
-
-
-
+  const [totalItems, setTotalItems] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit, setLimit] = useState(6)
+  const [sorting, setSorting] = useState({ field: "", order: "" })
+  const [search, setSearch] = useState("")
 
   //Get all Receipt
-  const receipts = useSelector((state) => state.receiptReducer.receipts);
-  const isLoading = useSelector((state) => state.receiptReducer.receiptLoading);
-  const roles = useSelector((state) => state.auth.user.roles);
+  const receipts = useSelector((state) => state.receiptReducer.receipts)
+  const isLoading = useSelector((state) => state.receiptReducer.receiptLoading)
 
   //Header table
   const headers = [
@@ -32,12 +27,12 @@ function Receipt() {
     { name: "Phone", field: "phone", sortable: false },
     { name: "Booking Code", field: "code", sortable: false },
     { name: "Action", field: "action", sortable: false },
-  ];
+  ]
 
   const currentData = useMemo(() => {
     let computedReceipts = [...receipts].sort((a, b) =>
       a.createdAt < b.createdAt ? 1 : -1
-    );
+    )
 
     if (search) {
       computedReceipts = computedReceipts.filter(
@@ -48,32 +43,28 @@ function Receipt() {
           comment.booking.customer.email
             .toLowerCase()
             .includes(search.toLowerCase()) ||
-          comment.booking.code
-            .toLowerCase()
-            .includes(search.toLowerCase()) 
-      );
+          comment.booking.code.toLowerCase().includes(search.toLowerCase())
+      )
     }
-    setTotalItems(computedReceipts.length);
+    setTotalItems(computedReceipts.length)
 
     //Sorting comments
     if (sorting.field) {
       computedReceipts.sort((a, b) => {
         if (a[sorting.field] < b[sorting.field]) {
-          return sorting.order === "ascending" ? -1 : 1;
+          return sorting.order === "ascending" ? -1 : 1
         }
         if (a[sorting.field] > b[sorting.field]) {
-          return sorting.order === "ascending" ? 1 : -1;
+          return sorting.order === "ascending" ? 1 : -1
         }
-        return 0;
-      });
+        return 0
+      })
     }
 
-    const indexOfLastNews = currentPage * limit;
-    const indexOfFirstNews = indexOfLastNews - limit;
-    return computedReceipts.slice(indexOfFirstNews, indexOfLastNews);
-  }, [receipts, currentPage, limit, sorting, search]);
-
-  const handlerModalClose = () => setIsOpen(false);
+    const indexOfLastNews = currentPage * limit
+    const indexOfFirstNews = indexOfLastNews - limit
+    return computedReceipts.slice(indexOfFirstNews, indexOfLastNews)
+  }, [receipts, currentPage, limit, sorting, search])
 
   return (
     <div>
@@ -89,8 +80,8 @@ function Receipt() {
               <div className="page__search">
                 <Search
                   onSearch={(value) => {
-                    setSearch(value);
-                    setCurrentPage(1);
+                    setSearch(value)
+                    setCurrentPage(1)
                   }}
                 />
               </div>
@@ -147,7 +138,7 @@ function Receipt() {
         )}
       </>
     </div>
-  );
+  )
 }
 
-export default Receipt;
+export default Receipt

@@ -1,7 +1,7 @@
 import * as types from "../constants/receiptConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOST_API_URL, LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL Receipt
 export const getAllReceipt = () => {
@@ -54,7 +54,7 @@ export const getStatistic = () => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_RECEIPT_LOADING, payload: true })
-      const response = await axios.get(`${LOCAL_API_URL}/receipt/statistic`)
+      const response = await axios.get(`${HOST_API_URL}/receipt/statistic`)
       if (response.data.success) {
         dispatch({
           type: types.STATISTIC,

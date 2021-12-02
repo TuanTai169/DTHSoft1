@@ -1,43 +1,45 @@
-import "./Profile.css";
-import React, { Fragment, useEffect } from "react";
-import { Button, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import EditProfileModal from "./EditProfileModal";
-import { loadUser } from "./../../redux/actions/authAction";
-import axios from "axios";
-import { HOST_API_URL } from "../../redux/constants/api";
-import { toast } from "react-toastify";
-import FullLoading from "../../components/Common/FullLoading/FullLoading";
+import "./profile.css"
+import React, { Fragment, useEffect } from "react"
+import { Button, Row, Col } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
+import { useState } from "react"
+import EditProfileModal from "./EditProfileModal"
+import { loadUser } from "./../../redux/actions/authAction"
+import axios from "axios"
+import { HOST_API_URL } from "../../redux/constants/api"
+import { toast } from "react-toastify"
+import FullLoading from "../../components/Common/FullLoading/FullLoading"
+import ChangePasswordModal from "./ChangePasswordModal"
 
-function Profile() {
-  const user = useSelector((state) => state.auth.user);
-  const users = useSelector((state) => state.userReducer.users);
-  const isLoading = useSelector((state) => state.userReducer.isUserLoading);
-  const role = useSelector((state) => state.auth.user.roles);
-  const dispatch = useDispatch();
+const Profile = () => {
+  const user = useSelector((state) => state.auth.user)
+  const users = useSelector((state) => state.userReducer.users)
+  const isLoading = useSelector((state) => state.userReducer.isUserLoading)
+  const role = useSelector((state) => state.auth.user.roles)
+  const dispatch = useDispatch()
+  useEffect(() => dispatch(loadUser()), [dispatch, users])
 
-  useEffect(() => dispatch(loadUser()), [dispatch, users, user]);
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isChangePassOpen, setIsChangePassOpen] = useState(false)
+  const [avatar, setAvatar] = useState(false)
 
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [avatar, setAvatar] = useState(false);
-
-  const handlerModalEditClose = () => setIsEditOpen(false);
+  const handlerModalEditClose = () => setIsEditOpen(false)
+  const handlerModalChangePassClose = () => setIsChangePassOpen(false)
 
   const changeAvatar = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const file = e.target.files[0];
+      const file = e.target.files[0]
 
-      if (!file) toast.error("No files were uploaded");
+      if (!file) toast.error("No files were uploaded")
 
-      if (file.size > 1024 * 1024) toast.error("Size too large");
+      if (file.size > 1024 * 1024) toast.error("Size too large")
 
       if (file.type !== "image/jpeg" && file.type !== "image/png")
-        toast.error("File format is incorrect");
+        toast.error("File format is incorrect")
 
-      let formData = new FormData();
-      formData.append("file", file);
+      let formData = new FormData()
+      formData.append("file", file)
 
       const res = await axios.post(
         `${HOST_API_URL}/user/upload-avatar/${user._id}`,
@@ -47,13 +49,14 @@ function Profile() {
             "Content-Type": "multipart/form-data",
           },
         }
-      );
-      toast.success(res.data.message);
-      setAvatar(res.data.url);
+      )
+      toast.success(res.data.message)
+      setAvatar(res.data.url)
+      dispatch(loadUser())
     } catch (err) {
-      err.response && toast.error(err.response.data.message);
+      err.response && toast.error(err.response.data.message)
     }
-  };
+  }
 
   return (
     <>
@@ -99,19 +102,30 @@ function Profile() {
                 <Col>
                   <Button
                     className="profile-edit-btn"
-                    variant="outline-secondary"
-                    style={{ marginLeft: "12px" }}
+                    variant="outline-success"
+                    style={{ marginLeft: "12px", marginBottom: "12px" }}
                     onClick={() => setIsEditOpen(true)}
                   >
-                    <i className="bx bxs-edit-alt icon-bg"></i> Edit Profile
+                    Edit Profile
                   </Button>
-                  {
-                    <EditProfileModal
-                      handlerModalClose={handlerModalEditClose}
-                      show={isEditOpen}
-                      user={user}
-                    />
-                  }
+                  <Button
+                    className="profile-edit-btn"
+                    variant="outline-danger"
+                    style={{ marginLeft: "12px" }}
+                    onClick={() => setIsChangePassOpen(true)}
+                  >
+                    Change password
+                  </Button>
+                  <EditProfileModal
+                    handlerModalClose={handlerModalEditClose}
+                    show={isEditOpen}
+                    user={user}
+                  />
+                  <ChangePasswordModal
+                    handlerModalClose={handlerModalChangePassClose}
+                    show={isChangePassOpen}
+                    user={user}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -163,7 +177,7 @@ function Profile() {
         </Fragment>
       )}
     </>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

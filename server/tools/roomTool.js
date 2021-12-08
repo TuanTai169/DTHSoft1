@@ -35,6 +35,7 @@ exports.changeStatusOneRoom = async (room, status, userId) => {
     })
   }
 }
+
 exports.calculateRoomCharge = async (rooms) => {
   const listRoom = await getAllInfoRoom(rooms)
   return _.sumBy(listRoom, (item) => item.price)

@@ -1,7 +1,7 @@
 import * as types from "../constants/receiptConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOST_API_URL, LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL Receipt
 export const getAllReceipt = () => {
@@ -43,6 +43,7 @@ export const checkOut = (newReceipt) => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_RECEIPT_LOADING, payload: false })
       error.response && toast.error(error.response.data.message)
     }
   }
@@ -52,15 +53,18 @@ export const checkOut = (newReceipt) => {
 export const getStatistic = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${LOCAL_API_URL}/receipt/statistic`)
+      dispatch({ type: types.SET_RECEIPT_LOADING, payload: true })
+      const response = await axios.get(`${HOST_API_URL}/receipt/statistic`)
       if (response.data.success) {
         dispatch({
           type: types.STATISTIC,
           payload: response.data.statistic,
         })
+        dispatch({ type: types.SET_RECEIPT_LOADING, payload: false })
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_RECEIPT_LOADING, payload: false })
     }
   }
 }

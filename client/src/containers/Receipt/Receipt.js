@@ -17,13 +17,15 @@ function Receipt() {
 
   //Get all Receipt
   const receipts = useSelector((state) => state.receiptReducer.receipts)
-  const isLoading = useSelector((state) => state.receiptReducer.receiptLoading)
+  const isLoading = useSelector(
+    (state) => state.receiptReducer.isReceiptLoading
+  )
 
   //Header table
   const headers = [
     { name: "No#", field: "id", sortable: false },
-    { name: "Name", field: "name", sortable: true },
-    { name: "Email", field: "email", sortable: true },
+    { name: "Name", field: "name", sortable: false },
+    { name: "Email", field: "email", sortable: false },
     { name: "Phone", field: "phone", sortable: false },
     { name: "Booking Code", field: "code", sortable: false },
     { name: "Action", field: "action", sortable: false },
@@ -124,6 +126,9 @@ function Receipt() {
                   <option value="8">8</option>
                   <option value="10">10</option>
                 </Form.Select>
+              </div>
+              <div className="page__sumOfRecord">
+                <h6>Total number of records: {totalItems} </h6>
               </div>
               <div className="page__pagination">
                 <PaginationComponent

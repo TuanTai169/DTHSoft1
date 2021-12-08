@@ -1,7 +1,7 @@
 import * as types from "../constants/userConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOST_API_URL } from "./../constants/api"
+import { HOST_API_URL, LOCAL_API_URL } from "./../constants/api"
 
 // READ ALL USER
 
@@ -19,14 +19,13 @@ export const getAllUser = () => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
       error.response.data && toast.error(error.response.data.message)
-      dispatch({ type: types.SET_USER_ERROR })
     }
   }
 }
 
 //update user
-
 export const updateUser = (updateUser, id) => {
   return async (dispatch) => {
     try {
@@ -45,19 +44,19 @@ export const updateUser = (updateUser, id) => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
       error.response.data && toast.error(error.response.data.message)
     }
   }
 }
 
 //update Profile user
-
 export const updateProfile = (updateUser, id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
       const response = await axios.put(
-        `${HOST_API_URL}/user/update-profile/${id}`,
+        `${LOCAL_API_URL}/user/update-profile/${id}`,
         updateUser
       )
       if (response.data.success) {
@@ -70,6 +69,33 @@ export const updateProfile = (updateUser, id) => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
+      error.response.data && toast.error(error.response.data.message)
+    }
+  }
+}
+
+//update Change Password
+export const changePassword = (updateUser, id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: types.SET_USER_LOADING, payload: true })
+
+      const response = await axios.put(
+        `${LOCAL_API_URL}/user/change-password/${id}`,
+        updateUser
+      )
+      if (response.data.success) {
+        dispatch({
+          type: types.UPDATE_USER,
+          payload: response.data.updatedUser,
+        })
+        dispatch({ type: types.SET_USER_LOADING, payload: false })
+        toast.success(response.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
       error.response.data && toast.error(error.response.data.message)
     }
   }
@@ -91,6 +117,7 @@ export const deleteUser = (id) => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
       error.response.data && toast.error(error.response.data.message)
     }
   }
@@ -112,6 +139,7 @@ export const addUser = (newUser) => {
       }
     } catch (error) {
       console.log(error)
+      dispatch({ type: types.SET_USER_LOADING, payload: false })
       error.response.data && toast.error(error.response.data.message)
     }
   }

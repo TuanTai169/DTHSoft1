@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
-import { Form, Modal, Button,ButtonToolbar, Row, Col, FloatingLabel } from "react-bootstrap"
+import { Modal, Button } from "react-bootstrap"
 import { ComponentToPrint } from './ComponentToPrint';
 
 const Example = (props) => {

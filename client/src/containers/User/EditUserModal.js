@@ -44,7 +44,7 @@ function EditUserModal(props) {
     <div>
       <Modal show={show} onHide={resetAddPostData} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit User</Modal.Title>
+          <Modal.Title>Edit {name}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>

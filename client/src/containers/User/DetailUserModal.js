@@ -1,15 +1,15 @@
-import React from "react"
-import { Form, Modal, Button, Row, Col, FloatingLabel } from "react-bootstrap"
+import React from "react";
+import { Form, Modal, Button, Row, Col, FloatingLabel } from "react-bootstrap";
 
 function DetailUserModal(props) {
-  const { show, handlerModalClose, user } = props
-  const { name, email, phone, address, image, roles } = user
+  const { show, handlerModalClose, user } = props;
+  const { name, email, phone, address, image, roles } = user;
 
   return (
     <>
       <Modal show={show} onHide={handlerModalClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>View User </Modal.Title>
+          <Modal.Title>View {name} </Modal.Title>
         </Modal.Header>
         <Form>
           <Modal.Body>
@@ -115,7 +115,7 @@ function DetailUserModal(props) {
         </Form>
       </Modal>
     </>
-  )
+  );
 }
 
-export default DetailUserModal
+export default DetailUserModal;

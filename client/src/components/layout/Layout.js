@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
-import "./layout.css"
-import { Route, Routes } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import themeAction from "../../redux/actions/themeAction"
-import Sidebar from "../Sidebar/Sidebar"
-import TopNav from "../Topnav/TopNav"
+import React, { useEffect } from "react";
+import "./layout.css";
+import { Route, Routes } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import themeAction from "../../redux/actions/themeAction";
+import Sidebar from "../Sidebar/Sidebar";
+import TopNav from "../Topnav/TopNav";
 
 import Dashboard from "../../containers/Dashboard/Dashboard"
 import Customers from "../../containers/Customer/Customers"
@@ -15,6 +15,8 @@ import Profile from "../../containers/Profile/Profile"
 import Receipt from "../../containers/Receipt/Receipt"
 import NotFound from "../Common/NotFound/NotFound"
 import Statistics from "./../../containers/Statistic/Statistics"
+import About from "../../containers/About/About";
+
 
 import { getAllBooking } from "../../redux/actions/bookingAction"
 import { getAllCustomer } from "../../redux/actions/customerAction"
@@ -25,23 +27,23 @@ import { getAllReceipt } from "../../redux/actions/receiptAction"
 import { getStatistic } from "./../../redux/actions/receiptAction"
 
 const Layout = () => {
-  const themeReducer = useSelector((state) => state.themeReducer)
+  const themeReducer = useSelector((state) => state.themeReducer);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const themeClass = localStorage.getItem("themeMode", "theme-mode-light")
-    const colorClass = localStorage.getItem("colorMode", "theme-mode-light")
-    dispatch(themeAction.setMode(themeClass))
-    dispatch(themeAction.setColor(colorClass))
-    dispatch(getAllRoom())
-    dispatch(getAllCustomer())
-    dispatch(getAllBooking())
-    dispatch(getAllService())
-    dispatch(getAllUser())
-    dispatch(getAllReceipt())
-    dispatch(getStatistic())
-  }, [dispatch])
+    const themeClass = localStorage.getItem("themeMode", "theme-mode-light");
+    const colorClass = localStorage.getItem("colorMode", "theme-mode-light");
+    dispatch(themeAction.setMode(themeClass));
+    dispatch(themeAction.setColor(colorClass));
+    dispatch(getAllRoom());
+    dispatch(getAllCustomer());
+    dispatch(getAllBooking());
+    dispatch(getAllService());
+    dispatch(getAllUser());
+    dispatch(getAllReceipt());
+    dispatch(getStatistic());
+  }, [dispatch]);
 
   return (
     <>
@@ -59,13 +61,14 @@ const Layout = () => {
               <Route path="/profile" exact element={<Profile />} />
               <Route path="/receipts" exact element={<Receipt />} />
               <Route path="/statistic" exact element={<Statistics />} />
+              <Route path="/about" exact element={<About />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

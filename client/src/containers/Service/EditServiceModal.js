@@ -71,7 +71,7 @@ const EditServiceModal = (props) => {
             <Button variant="primary" type="submit">
               Save
             </Button>
-            <Button variant="danger" onClick={resetEditPostData}>
+            <Button variant="secondary" onClick={resetEditPostData}>
               Close
             </Button>
           </Modal.Footer>

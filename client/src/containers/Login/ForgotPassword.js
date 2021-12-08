@@ -48,6 +48,12 @@ function ForgotPassword() {
       <Button className="login-btn-submit" onClick={sendConformEmail}>
         Verify your email
       </Button>
+      <div style={{ marginTop: "12px" }}>
+        <Link to="/login">
+          {" "}
+          <i className="bx bx-left-arrow-alt"></i>Login
+        </Link>
+      </div>
     </div>
   )
 }

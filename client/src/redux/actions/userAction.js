@@ -20,7 +20,7 @@ export const getAllUser = () => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -45,7 +45,7 @@ export const updateUser = (updateUser, id) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -70,7 +70,7 @@ export const updateProfile = (updateUser, id) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -96,7 +96,7 @@ export const changePassword = (updateUser, id) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -118,7 +118,7 @@ export const deleteUser = (id) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -140,7 +140,7 @@ export const addUser = (newUser) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: types.SET_USER_LOADING, payload: false })
-      error.response.data && toast.error(error.response.data.message)
+      error.response && toast.error(error.response.data.message)
     }
   }
 }

@@ -111,7 +111,7 @@ function EditUserModal(props) {
             <Button variant="primary" type="submit">
               Save
             </Button>
-            <Button variant="danger" onClick={resetAddPostData}>
+            <Button variant="secondary" onClick={resetAddPostData}>
               Close
             </Button>
           </Modal.Footer>

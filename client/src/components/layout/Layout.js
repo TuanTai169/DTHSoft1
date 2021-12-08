@@ -14,6 +14,8 @@ import Users from "../../containers/User/Users"
 import Profile from "../../containers/Profile/Profile"
 import Receipt from "../../containers/Receipt/Receipt"
 import NotFound from "../Common/NotFound/NotFound"
+import Statistics from "../../containers/Statistic/Statistics"
+
 import { getAllBooking } from "../../redux/actions/bookingAction"
 import { getAllCustomer } from "../../redux/actions/customerAction"
 import { getAllRoom } from "../../redux/actions/roomAction"
@@ -21,6 +23,7 @@ import { getAllService } from "../../redux/actions/serviceAction"
 import { getAllUser } from "../../redux/actions/userAction"
 import { getAllReceipt } from "../../redux/actions/receiptAction"
 import { getStatistic } from "./../../redux/actions/receiptAction"
+import About from "../../containers/About/About"
 
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer)
@@ -55,7 +58,9 @@ const Layout = () => {
               <Route path="/room-diagram" exact element={<Rooms />} />
               <Route path="/users" exact element={<Users />} />
               <Route path="/profile" exact element={<Profile />} />
-              <Route path="/receipt" exact element={<Receipt />} />
+              <Route path="/receipts" exact element={<Receipt />} />
+              <Route path="/statistic" exact element={<Statistics />} />
+              <Route path="/about" exact element={<About />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>

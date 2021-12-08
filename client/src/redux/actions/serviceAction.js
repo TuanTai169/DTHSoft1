@@ -19,8 +19,8 @@ export const getAllService = () => {
       }
     } catch (error) {
       console.log(error)
-      error.response.data && toast.error(error.response.data.message)
-      dispatch({ type: types.SET_SERVICE_ERROR })
+      dispatch({ type: types.SET_SERVICE_LOADING, payload: false })
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -39,8 +39,7 @@ export const findService = (id) => {
         })
       }
     } catch (error) {
-      dispatch({ type: types.SET_SERVICE_ERROR })
-      toast.error("Sever Error")
+      dispatch({ type: types.SET_SERVICE_LOADING, payload: false })
     }
   }
 }
@@ -61,7 +60,8 @@ export const addService = (newService) => {
       }
     } catch (error) {
       console.log(error)
-      error.response.data && toast.error(error.response.data.message)
+      dispatch({ type: types.SET_SERVICE_LOADING, payload: false })
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -82,7 +82,8 @@ export const deleteService = (id) => {
       }
     } catch (error) {
       console.log(error)
-      error.response.data && toast.error(error.response.data.message)
+      dispatch({ type: types.SET_SERVICE_LOADING, payload: false })
+      error.response && toast.error(error.response.data.message)
     }
   }
 }
@@ -105,7 +106,8 @@ export const updateService = (updateService) => {
       }
     } catch (error) {
       console.log(error)
-      error.response.data && toast.error(error.response.data.message)
+      dispatch({ type: types.SET_SERVICE_LOADING, payload: false })
+      error.response && toast.error(error.response.data.message)
     }
   }
 }

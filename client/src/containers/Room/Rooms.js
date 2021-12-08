@@ -8,6 +8,7 @@ import ViewAllBookingModal from "../Booking/ViewAllBookingModal"
 import { getAllBooking } from "./../../redux/actions/bookingAction"
 import FullLoading from "../../components/Common/FullLoading/FullLoading"
 import ScrollToTop from "./../../components/Common/ScrollToTop/ScrollToTop"
+import { getAllReceipt } from "./../../redux/actions/receiptAction"
 
 const Rooms = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
@@ -41,51 +42,61 @@ const Rooms = () => {
               <h3>Room Diagram</h3>
             </div>
             <div className="page__status">
-              <Button
-                variant="outline-warning"
-                style={{
-                  marginLeft: "16px",
-                  fontWeight: "bold",
-                  fontSize: "18px",
-                }}
+              <OverlayTrigger
+                overlay={
+                  <Tooltip id="tooltip-disabled">NUMBER OF ROOMS</Tooltip>
+                }
               >
-                <i className="bx bxs-home"></i>
-                {rooms.length}
-              </Button>
-              {arrayStatusRoom.map((item, index) => (
                 <Button
-                  variant={
-                    item[0] === "OCCUPIED"
-                      ? "outline-primary"
-                      : item[0] === "CLEANING"
-                      ? "outline-danger"
-                      : item[0] === "BOOKING"
-                      ? "outline-info"
-                      : item[0] === "FIXING"
-                      ? "outline-secondary"
-                      : "outline-success"
-                  }
-                  key={index}
+                  variant="outline-warning"
                   style={{
                     marginLeft: "16px",
                     fontWeight: "bold",
                     fontSize: "18px",
                   }}
                 >
-                  {item[0] === "READY" && (
-                    <i className="bx bxs-check-circle"></i>
-                  )}
-                  {item[0] === "BOOKING" && <i className="bx bxs-user-x"></i>}
-                  {item[0] === "OCCUPIED" && (
-                    <i className="bx bxs-user-check"></i>
-                  )}
-                  {item[0] === "CLEANING" && (
-                    <i className="bx bxs-magic-wand"></i>
-                  )}
-                  {item[0] === "FIXING" && <i className="bx bxs-edit"></i>}
-
-                  {item[1].length}
+                  <i className="bx bxs-home"></i>
+                  {rooms.length}
                 </Button>
+              </OverlayTrigger>
+              {arrayStatusRoom.map((item, index) => (
+                <OverlayTrigger
+                  overlay={<Tooltip id="tooltip-disabled">{item[0]}</Tooltip>}
+                >
+                  <Button
+                    variant={
+                      item[0] === "OCCUPIED"
+                        ? "outline-primary"
+                        : item[0] === "CLEANING"
+                        ? "outline-danger"
+                        : item[0] === "BOOKING"
+                        ? "outline-info"
+                        : item[0] === "FIXING"
+                        ? "outline-secondary"
+                        : "outline-success"
+                    }
+                    key={index}
+                    style={{
+                      marginLeft: "16px",
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                    }}
+                  >
+                    {item[0] === "READY" && (
+                      <i className="bx bxs-check-circle"></i>
+                    )}
+                    {item[0] === "BOOKING" && <i className="bx bxs-user-x"></i>}
+                    {item[0] === "OCCUPIED" && (
+                      <i className="bx bxs-user-check"></i>
+                    )}
+                    {item[0] === "CLEANING" && (
+                      <i className="bx bxs-magic-wand"></i>
+                    )}
+                    {item[0] === "FIXING" && <i className="bx bxs-edit"></i>}
+
+                    {item[1].length}
+                  </Button>
+                </OverlayTrigger>
               ))}
             </div>
             <div className="page__action">
@@ -98,6 +109,7 @@ const Rooms = () => {
                       variant="info"
                       onClick={() => {
                         dispatch(getAllBooking())
+                        dispatch(getAllReceipt())
                       }}
                       style={{ marginRight: "10px", color: "#fff" }}
                     >
@@ -111,7 +123,9 @@ const Rooms = () => {
 
                 <OverlayTrigger
                   overlay={
-                    <Tooltip id="tooltip-disabled">List Booking</Tooltip>
+                    <Tooltip id="tooltip-disabled">
+                      List Booking/Check In
+                    </Tooltip>
                   }
                 >
                   <span className="d-inline-block">

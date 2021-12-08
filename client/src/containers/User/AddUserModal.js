@@ -126,7 +126,7 @@ const AddUserModal = (props) => {
                     onChange={onChangeNewForm}
                     required
                   >
-                    <option>--</option>
+                    <option value="">--</option>
                     {role === "ADMIN" && <option value="ADMIN">ADMIN</option>}
                     <option value="MANAGER">MANAGER</option>
                     <option value="EMPLOYEE">EMPLOYEE</option>
@@ -153,7 +153,7 @@ const AddUserModal = (props) => {
             <Button variant="primary" type="submit">
               Save
             </Button>
-            <Button variant="danger" onClick={resetAddPostData}>
+            <Button variant="secondary" onClick={resetAddPostData}>
               Close
             </Button>
           </Modal.Footer>

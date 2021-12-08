@@ -1,197 +1,240 @@
-import React from 'react';
-import { Col, Divider, Row, Table } from 'antd';
-import { Form } from "react-bootstrap"
-import { useSelector } from 'react-redux';
+import React from "react"
+import { Col, Form, Row, Table } from "react-bootstrap"
+import { useSelector } from "react-redux"
 import { convertStringToDate } from "../../utils/convertDateTime"
 
-
 export const ComponentToPrint = React.forwardRef((props, ref) => {
-  
   const { receipt } = props
-  const cashier = useSelector(state => state.auth.user.name);
+  const cashier = useSelector((state) => state.auth.user.name)
 
+  const content = receipt.booking.services.map((services) => (
+    <Row key={services._id}>
+      <Col sm={10}>
+        {" "}
+        <strong>{services.name}: </strong>
+      </Col>
+      <Col>
+        {" "}
+        <strong>{services.price}</strong>
+      </Col>
+    </Row>
+  ))
 
-  // Service
-  const sidebar = (
-    <ul>
-      {receipt.booking.services.map((services) =>
-        <li key={services._id}>      
-        </li>
-      )}
-    </ul>
-  );
-  const content = receipt.booking.services.map((services) =>
-    <div key={services._id}>
-      <table>
-            <tr>    
-              <th><h6>{services.name}: </h6></th>         
-              <td><h6>{services.price}</h6></td>             
-            </tr>
-        </table>
-    </div> 
-  );
+  //Render Table
+  const tableHead = ["Number", "Price (USD)", "CheckIn", "CheckOut"]
+  const renderHead = tableHead.map((item, index) => {
+    return (
+      <th key={index} style={{ fontWeight: 500, textAlign: "center" }}>
+        {item}
+      </th>
+    )
+  })
 
   //Room
+  const roomContent = receipt.booking.rooms.map((rooms) => (
+    <tr key={rooms._id}>
+      <td>{rooms.roomNumber}</td>
+      <td>{rooms.price}</td>
+      <td>{convertStringToDate(receipt.booking.checkInDate)}</td>
+      <td>{convertStringToDate(receipt.booking.checkOutDate)}</td>
+    </tr>
+  ))
 
-  const RoomContent = receipt.booking.rooms.map((rooms) =>
-    <div style={{ textAlign: "center", }} key={rooms._id}>
-      <table>
-            <tr>
-                  <th><h6 style= {{marginRight: "20px"}}>RoomNumber </h6></th> 
-                  <th><h6 style= {{marginRight: "20px"}}>Rooms Price </h6></th>  
-                  <th><h6 style= {{marginRight: "20px"}}>Check In </h6></th> 
-                  <th><h6 style= {{marginRight: "20px"}} >Check Out </h6></th>                
-              </tr>
-              <tr>
-                  <td>{rooms.roomNumber}</td>  
-                  <td>{rooms.price}</td>
-                  <td>{convertStringToDate(receipt.booking.checkInDate)}</td>
-                  <td>{convertStringToDate(receipt.booking.checkOutDate)}</td>
-              </tr>
-        </table>
-    </div> 
-  );
-
-  const today = new Date();
+  const today = new Date()
   const dateTime = convertStringToDate(today)
-  
 
   return (
     <>
-    <div ref={ref}> 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+      <div ref={ref}>
+        <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
           <Col>
-          <div style={{ textAlign: "center", fontSize: "20px" }}>           
+            <div style={{ textAlign: "center", fontSize: "20px" }}>
               <h5>DTHSOFT</h5>
             </div>
-            <div style={{ textAlign: "center", fontSize: "13px" }}>           
-              <strong>1. Vo Van Ngan, Linh Chieu, Thu Duc City, Ho Chi Minh City, Viet Nam</strong>
+            <div style={{ textAlign: "center", fontSize: "13px" }}>
+              <strong>
+                1. Vo Van Ngan, Linh Chieu, Thu Duc City, Ho Chi Minh City, Viet
+                Nam
+              </strong>
             </div>
           </Col>
         </Row>
 
-      <Row className="mb-3" >
-        <Col>
-        <div style={{ textAlign: "center", fontSize: "20px" }}>           
-            <h5>CASH RECEIPT</h5>
-          </div>
-        </Col>
-      </Row>
+        <Row className="mb-3">
+          <Col>
+            <div style={{ textAlign: "center", fontSize: "20px" }}>
+              <h5>CASH RECEIPT</h5>
+            </div>
+          </Col>
+        </Row>
 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-        <Col>
-        <table>
-            <tr>
-              <th><h6>Cash ID: </h6></th>
-              <td><h6>{receipt._id}</h6></td>             
-            </tr>                                  
-            <tr>
-              <th><h6>Cashier: </h6></th>
-              <td><h6>{cashier}</h6></td>
-            </tr>
-            <tr>
-              <th><h6>Date: </h6></th>
-              <td><h6>{dateTime}</h6></td>
-            </tr>
-          </table>
-        </Col>      
-      </Row>
+        <div className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+          <Row>
+            <Col sm={3}>
+              <strong>Cash ID: </strong>
+            </Col>
+            <Col>
+              <strong>{receipt._id}</strong>
+            </Col>
+          </Row>
 
-      
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-              <Form.Group controlId="formGridRoom">
+          <Row>
+            <Col sm={3}>
+              <strong>Cashier: </strong>
+            </Col>
+            <Col>
+              <strong>{cashier}</strong>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={3}>
+              <strong>Date: </strong>
+            </Col>
+            <Col>
+              <strong>{dateTime}</strong>
+            </Col>
+          </Row>
+        </div>
 
-              <div className="form-label">
-                  <h5>Room</h5>                              
-                </div>         
-                <div>                                                    
-                    {RoomContent}
-                </div>  
-                <p>
-                    <strong>Amount (USD):{" "}</strong> 
-                    <strong style={{ color: "red" }}>
-                      {receipt.booking.roomCharge}
-                    </strong>
-                  </p>
-              </Form.Group>
+        <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+          <Form.Group controlId="formGridRoom">
+            <div
+              className="room"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <p style={{ fontWeight: "bold" }}>Room</p>
+            </div>
+            <Table>
+              <thead>{renderHead}</thead>
+              <tbody>{roomContent}</tbody>
+            </Table>
+            <Row>
+              <Col sm={10}>
+                <strong>Amount (USD): </strong>
+              </Col>
+              <Col>
+                <strong style={{ color: "red" }}>
+                  {receipt.booking.roomCharge}
+                </strong>
+              </Col>
             </Row>
+          </Form.Group>
+        </Row>
 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-              <Form.Group as={Col} controlId="formGridService">
-                <div className="form-label">
-                  <h5>Service</h5>                              
-                </div>         
-                <div>
-                    {sidebar}                   
-                    {content}
-                </div>  
-                <p>
-                    <strong>Amount (USD):{" "}</strong> 
-                    <strong style={{ color: "red" }}>
-                      {receipt.booking.serviceCharge}
-                    </strong>
-                  </p>
-              </Form.Group>
-            </Row>
+        {receipt.booking.services.length > 0 && (
+          <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+            <Form.Group as={Col} controlId="formGridService">
+              <div
+                className="service"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <p style={{ fontWeight: "bold" }}>Service</p>
+              </div>
+              <div>{content}</div>
+              <Row>
+                <Col sm={10}>
+                  <strong>Amount (USD): </strong>
+                </Col>
+                <Col>
+                  <strong style={{ color: "red" }}>
+                    {receipt.booking.serviceCharge}
+                  </strong>
+                </Col>
+              </Row>
+            </Form.Group>
+          </Row>
+        )}
 
+        <div className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+          <Row>
+            <Col sm={10}>
+              <strong>Total Price: </strong>
+            </Col>
+            <Col>
+              <strong>
+                {(
+                  receipt.booking.totalPrice /
+                  (1 + receipt.booking.VAT / 100)
+                ).toFixed()}
+              </strong>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={10}>
+              <strong>VAT: </strong>
+            </Col>
+            <Col>
+              <strong>{receipt.booking.VAT}%</strong>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={10}>
+              <strong>Discount: </strong>
+            </Col>
+            <Col>
+              <strong>{receipt.booking.discount}%</strong>
+            </Col>
+          </Row>
 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-        <Col >
-        <table>
-            <tr>
-              <th><h6>Total Price: </h6></th>
-              <td><h6 style={{ color: "red" }}>{receipt.booking.totalPrice}</h6></td>             
-            </tr>                                  
-            <tr>
-              <th><h6>Discount: </h6></th>
-              <td><h6>{receipt.booking.discount}</h6></td>
-            </tr>
-            <tr>
-              <th><h6>Pay: </h6></th>
-              <td><h6 style={{ color: "red" }}>{receipt.booking.totalPrice}</h6></td>
-            </tr>
-          </table>
-          <div style={{ textAlign: "center", fontSize: "13px" }}>           
-              <strong>(Above prices are inclusive 10% of value added tax)</strong>
+          <Row>
+            <Col sm={10}>
+              <strong>Pay: </strong>
+            </Col>
+            <Col>
+              <strong style={{ color: "red" }}>
+                {receipt.booking.totalPrice}
+              </strong>
+            </Col>
+          </Row>
+          <div style={{ textAlign: "center", fontSize: "13px" }}>
+            <strong>(Above prices are inclusive 10% of value added tax)</strong>
           </div>
-        </Col>      
-      </Row>
+        </div>
+        <div className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+          <Row>
+            <Col sm={10}>
+              <strong>Cash: </strong>
+            </Col>
+            <Col>
+              <strong style={{ color: "red" }}>{receipt.paidOut}</strong>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={10}>
+              <strong>Refund: </strong>
+            </Col>
+            <Col>
+              <strong style={{ color: "red" }}>{receipt.refund}</strong>
+            </Col>
+          </Row>
+        </div>
+        <Row className="mb-3">
+          <Col span={8}>
+            <div style={{ textAlign: "center", fontSize: "13px" }}>
+              <strong>Complaint or Suggestions: 1800 1010</strong>
+            </div>
 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-        <Col >
-        <table>
-            <tr>
-              <th><h6>Cash: </h6></th>
-              <td><h6>{receipt.paidOut}</h6></td>             
-            </tr>                                  
-            <tr>
-              <th><h6>Refund: </h6></th>
-              <td><h6>{receipt.refund}</h6></td>
-            </tr>
-          </table>
-        </Col>      
-      </Row>
+            <div style={{ textAlign: "center", fontSize: "13px" }}>
+              <strong>
+                Note: DTH only issues invoices within the day, please contact
+                the staff for support.
+              </strong>
+            </div>
 
-      <Row className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
-        <Col span={8}>
-          <div style={{ textAlign: "center", fontSize: "13px" }}>           
-              <strong>Complaint or Suggestions: 1800 1010</strong>     
-          </div>
-
-          <div style={{ textAlign: "center", fontSize: "13px" }}>           
-            <strong>Note: DTH only issues invoices within the day, please contact the staff for support.</strong>     
-          </div>
-
-          <div style={{ textAlign: "center", fontSize: "13px" }}>           
-            <strong>Thank you. See you again</strong>     
-          </div>
-          
-
-          
-        </Col>      
-      </Row>
-        
-    </div>
+            <div style={{ textAlign: "center", fontSize: "13px" }}>
+              <strong>Thank you. See you again</strong>
+            </div>
+          </Col>
+        </Row>
+      </div>
     </>
-  );
-});
+  )
+})

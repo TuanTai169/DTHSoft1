@@ -6,27 +6,6 @@ import themeAction from "../../redux/actions/themeAction";
 import Sidebar from "../Sidebar/Sidebar";
 import TopNav from "../Topnav/TopNav";
 
-<<<<<<< HEAD
-import Dashboard from "../../containers/Dashboard/Dashboard";
-import Customers from "../../containers/Customer/Customers";
-import Services from "../../containers/Service/Services";
-import Rooms from "../../containers/Room/Rooms";
-import Users from "../../containers/User/Users";
-import Profile from "../../containers/Profile/Profile";
-import Receipt from "../../containers/Receipt/Receipt";
-import NotFound from "../Common/NotFound/NotFound";
-import Statistics from "../../containers/Statistic/Statistics";
-
-import { getAllBooking } from "../../redux/actions/bookingAction";
-import { getAllCustomer } from "../../redux/actions/customerAction";
-import { getAllRoom } from "../../redux/actions/roomAction";
-import { getAllService } from "../../redux/actions/serviceAction";
-import { getAllUser } from "../../redux/actions/userAction";
-import { getAllReceipt } from "../../redux/actions/receiptAction";
-import { getStatistic } from "./../../redux/actions/receiptAction";
-import Example from "../../containers/Receipt/Example";
-
-=======
 import Dashboard from "../../containers/Dashboard/Dashboard"
 import Customers from "../../containers/Customer/Customers"
 import Services from "../../containers/Service/Services"
@@ -36,6 +15,8 @@ import Profile from "../../containers/Profile/Profile"
 import Receipt from "../../containers/Receipt/Receipt"
 import NotFound from "../Common/NotFound/NotFound"
 import Statistics from "./../../containers/Statistic/Statistics"
+import About from "../../containers/About/About";
+
 
 import { getAllBooking } from "../../redux/actions/bookingAction"
 import { getAllCustomer } from "../../redux/actions/customerAction"
@@ -45,7 +26,6 @@ import { getAllUser } from "../../redux/actions/userAction"
 import { getAllReceipt } from "../../redux/actions/receiptAction"
 import { getStatistic } from "./../../redux/actions/receiptAction"
 
->>>>>>> 41e1ca704afdbea76654f70b51e8e85427ae3c9b
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer);
 
@@ -81,6 +61,7 @@ const Layout = () => {
               <Route path="/profile" exact element={<Profile />} />
               <Route path="/receipts" exact element={<Receipt />} />
               <Route path="/statistic" exact element={<Statistics />} />
+              <Route path="/about" exact element={<About />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>

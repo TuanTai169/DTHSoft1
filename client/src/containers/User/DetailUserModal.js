@@ -9,7 +9,7 @@ function DetailUserModal(props) {
     <>
       <Modal show={show} onHide={handlerModalClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>View User </Modal.Title>
+          <Modal.Title>View {name} </Modal.Title>
         </Modal.Header>
         <Form>
           <Modal.Body>

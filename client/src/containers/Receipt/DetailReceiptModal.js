@@ -1,9 +1,13 @@
-import React from "react"
-import { Form, Modal, Button, Row, Col, FloatingLabel } from "react-bootstrap"
+import React,{ useState, useRef } from "react"
+import { Form, Modal, Button,ButtonToolbar, Row, Col, FloatingLabel } from "react-bootstrap"
 import { convertStringToDate } from "../../utils/convertDateTime"
 import CustomerForm from "../FormBooking/CustomerForm"
 import RoomForm from "../FormBooking/RoomForm"
 import ServiceForm from "./../FormBooking/ServiceForm"
+import Example from "./Example"
+import { ComponentToPrint } from "./ComponentToPrint"
+import ReactToPrint from 'react-to-print';
+
 
 function DetailReceiptModal(props) {
   const { show, handlerModalClose, receipt } = props
@@ -12,7 +16,11 @@ function DetailReceiptModal(props) {
   const checkInDateConvert = convertStringToDate(booking.checkInDate)
   const checkOutDateConvert = convertStringToDate(booking.checkOutDate)
 
+  const [isViewOpen, setIsViewOpen] = useState(false)
+  const handlerModalViewClose = () => setIsViewOpen(false)
+  const componentRef = useRef();
   //print
+  
 
   return (
     <>
@@ -154,14 +162,25 @@ function DetailReceiptModal(props) {
               </Form.Group>
             </Row>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="danger" onClick={() => window.print()}>
-              Print
-            </Button>
-            <Button variant="danger" onClick={handlerModalClose}>
+          <Modal.Footer>         
+          <ButtonToolbar>
+          <Button
+            variant="danger"
+            onClick={() => setIsViewOpen(true)}
+          >
+            Print
+          </Button>
+          <Example
+            handlerModalClose={handlerModalViewClose}
+            show={isViewOpen}
+            receipt = {receipt}
+          />         
+        </ButtonToolbar>     
+            <Button variant="secondary" onClick={handlerModalClose}>
               Close
-            </Button>
+            </Button>                      
           </Modal.Footer>
+          
         </Form>
       </Modal>
     </>

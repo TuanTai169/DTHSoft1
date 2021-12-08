@@ -21,6 +21,7 @@ import { getAllService } from "../../redux/actions/serviceAction"
 import { getAllUser } from "../../redux/actions/userAction"
 import { getAllReceipt } from "../../redux/actions/receiptAction"
 import { getStatistic } from "./../../redux/actions/receiptAction"
+import Example from "../../containers/Receipt/Example"
 
 const Layout = () => {
   const themeReducer = useSelector((state) => state.themeReducer)
@@ -56,6 +57,7 @@ const Layout = () => {
               <Route path="/users" exact element={<Users />} />
               <Route path="/profile" exact element={<Profile />} />
               <Route path="/receipt" exact element={<Receipt />} />
+              <Route path="/test" exact element={<Example />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </div>

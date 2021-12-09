@@ -61,6 +61,7 @@ const Rooms = () => {
               </OverlayTrigger>
               {arrayStatusRoom.map((item, index) => (
                 <OverlayTrigger
+                  key={index}
                   overlay={<Tooltip id="tooltip-disabled">{item[0]}</Tooltip>}
                 >
                   <Button

@@ -1,4 +1,6 @@
 import { toast } from "react-toastify"
+import _ from "lodash"
+
 export const phoneValidation = (phone) => {
   if (phone.length !== 10) {
     toast.error("Please enter valid phone number.")
@@ -70,5 +72,14 @@ export const passwordValidation = (password) => {
     )
     return false
   }
+  return true
+}
+
+export const matchPasswordValidation = (password, confirmPassword) => {
+  if (_.isEqual(password, confirmPassword) === false) {
+    toast.error("Password did not match")
+    return false
+  }
+
   return true
 }

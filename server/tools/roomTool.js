@@ -132,7 +132,7 @@ exports.lateCheckOut = (checkOutDate, roomCharge) => {
 
   const start = moment(checkOutDate, "YYYY-MM-DD").set({
     hours: 12,
-    minutes: 00,
+    minutes: 0,
   })
   const end = moment(checkOutDate, "YYYY-MM-DD HH:mm")
 

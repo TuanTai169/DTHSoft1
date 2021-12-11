@@ -6,8 +6,13 @@ import DatePicker from "react-datepicker"
 import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux"
 
-import CustomerForm from "../FormBooking/CustomerForm"
 import { addBooking } from "../../redux/actions/bookingAction"
+import { numberValidation } from "../../utils/validation"
+import { totalRoomCharge } from "./../../utils/calculateRoomPrice"
+import { getAllBooking } from "./../../redux/actions/bookingAction"
+import { checkStatusRoom } from "../../utils/validation"
+import CustomerForm from "../FormBooking/CustomerForm"
+import ViewAllServiceModal from "../Service/ViewAllServiceModal"
 import ViewAllRoomModal from "../Room/ViewAllRoomModal"
 
 const CheckInModal = (props) => {
@@ -20,12 +25,14 @@ const CheckInModal = (props) => {
   const listCustomer = useSelector((state) => state.customerReducer.customers)
   const listRoom = useSelector((state) => state.roomReducer.rooms)
   const listService = useSelector((state) => state.serviceReducer.services)
+  const listBooking = useSelector((state) => state.bookingReducer.bookings)
 
   // useState
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(
-    startDate.getTime() + 12 * 60 * 60 * 1000
+    new Date(startDate.getTime() + 12 * 60 * 60 * 1000).setHours(12, 0)
   )
+  const [excludeDates, setExcludeDates] = useState([])
   const [customer, setCustomer] = useState({})
   const [arrayRoom, setArrayRoom] = useState(
     listRoom
@@ -49,31 +56,19 @@ const CheckInModal = (props) => {
     services: [],
   })
   const [openViewRoom, setOpenViewRoom] = useState(false)
+  const [openViewService, setOpenViewService] = useState(false)
 
   //
 
   useEffect(() => {
     const { checkInDate, checkOutDate, deposit, discount } = newBooking
 
-    //Calculator
-    const calculatorDayDiff = () => {
-      const start = moment(checkInDate, "YYYY-MM-DD HH:mm")
-      const end = moment(checkOutDate, "YYYY-MM-DD HH:mm")
-      //Difference in number of days
-      const dayDiff =
-        Math.round(moment.duration(end.diff(start)).asDays()) < 1
-          ? 1
-          : Math.round(moment.duration(end.diff(start)).asDays())
-
-      return dayDiff
-    }
+    const checkExcludeDate = checkStatusRoom(rooms, listBooking)
+    const exclude = checkExcludeDate.map((item) => new Date(item))
+    setExcludeDates(exclude)
 
     const calculatorPrice = () => {
-      const dayDiff = calculatorDayDiff()
-
-      const sumRoomsPrice = rooms
-        .map((item) => item.price)
-        .reduce((prev, curr) => prev + curr, 0)
+      const RoomCharge = totalRoomCharge(rooms, checkInDate, checkOutDate)
 
       const sumServicesPrice = services
         .map((item) => item.price)
@@ -81,29 +76,32 @@ const CheckInModal = (props) => {
 
       const VAT = 10
       return (
-        (sumRoomsPrice * dayDiff + sumServicesPrice) *
-          (1 + VAT / 100 - discount / 100) -
+        (RoomCharge + sumServicesPrice) * (1 + VAT / 100 - discount / 100) -
         deposit
       ).toFixed()
     }
     setTotalPrice(calculatorPrice)
-  }, [newBooking, rooms, services])
+  }, [newBooking, rooms, services, listBooking])
 
   // Handler
   const handlerCustomer = () => {
     navigate("/customers")
   }
-  const handlerService = () => {
-    navigate("/services")
-  }
 
   const handlerSubmit = (e) => {
     e.preventDefault()
-    dispatch(addBooking(newBooking, "check-in"))
-    resetDataBooking()
+    if (
+      numberValidation(newBooking.discount) &&
+      numberValidation(newBooking.deposit)
+    ) {
+      dispatch(addBooking(newBooking, "check-in"))
+      setTimeout(() => dispatch(getAllBooking()), 3000)
+      resetDataBooking()
+    }
   }
 
   const closeViewRoomModal = () => setOpenViewRoom(false)
+  const closeViewServiceModal = () => setOpenViewService(false)
 
   const resetDataBooking = () => {
     handlerParentModalClose()
@@ -182,7 +180,7 @@ const CheckInModal = (props) => {
   }
 
   //Render room Table
-  const tableRoomHead = ["Number", "Floor", "Type", "Price (USD)", ""]
+  const tableRoomHead = ["No#", "Number", "Floor", "Type", "Price (USD)", ""]
   const renderRoomHead = tableRoomHead.map((item, index) => {
     return (
       <th key={index} style={{ fontWeight: 500 }}>
@@ -225,7 +223,9 @@ const CheckInModal = (props) => {
                   selectsStart
                   startDate={startDate}
                   endDate={endDate}
+                  minDate={new Date()}
                   showTimeSelect
+                  excludeDates={excludeDates}
                   timeFormat="HH:mm"
                   dateFormat="dd/MM/yyyy HH:mm"
                 />
@@ -246,6 +246,7 @@ const CheckInModal = (props) => {
                   endDate={endDate}
                   minDate={startDate}
                   showTimeSelect
+                  excludeDates={excludeDates}
                   timeFormat="HH:mm"
                   dateFormat="dd/MM/yyyy HH:mm"
                 />
@@ -304,7 +305,7 @@ const CheckInModal = (props) => {
               </Col>
               <Col sm={3}>
                 <Button onClick={() => setOpenViewRoom(true)}>
-                  View All Room
+                  Add New Room
                 </Button>
               </Col>
               <Table striped>
@@ -312,8 +313,9 @@ const CheckInModal = (props) => {
                   <tr>{renderRoomHead}</tr>
                 </thead>
                 <tbody>
-                  {rooms.map((room) => (
+                  {rooms.map((room, index) => (
                     <tr key={room._id}>
+                      <td>{index + 1}</td>
                       <td>{room.roomNumber}</td>
                       <td>{room.floor}</td>
                       <td>{room.roomType}</td>
@@ -354,9 +356,9 @@ const CheckInModal = (props) => {
                 <Button
                   variant="warning"
                   style={{ color: "#fff" }}
-                  onClick={handlerService}
+                  onClick={() => setOpenViewService(true)}
                 >
-                  View All Service
+                  Add New Service
                 </Button>
               </Col>
               <Table striped>
@@ -381,6 +383,11 @@ const CheckInModal = (props) => {
                   ))}
                 </tbody>
               </Table>
+              <ViewAllServiceModal
+                show={openViewService}
+                handlerModalClose={closeViewServiceModal}
+                getService={onChangeService}
+              />
             </Row>
             <p>
               Total Price (USD):{" "}

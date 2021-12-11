@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Form, Modal, Button, FloatingLabel } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { addService } from "../../redux/actions/serviceAction"
+import { nameValidation, numberValidation } from "../../utils/validation"
 
 const AddServiceModal = (props) => {
   const { show, handlerModalClose } = props
@@ -17,8 +18,10 @@ const AddServiceModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    resetAddPostData()
-    dispatch(addService(newService))
+    if (nameValidation(newService.name) && numberValidation(newService.price)) {
+      resetAddPostData()
+      dispatch(addService(newService))
+    }
   }
 
   const resetAddPostData = () => {

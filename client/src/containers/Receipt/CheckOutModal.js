@@ -12,6 +12,8 @@ import { checkOut } from "../../redux/actions/receiptAction"
 import PayPalModal from "./PayPalModal"
 import FullLoading from "./../../components/Common/FullLoading/FullLoading"
 import { updateBooking } from "./../../redux/actions/bookingAction"
+import { numberValidation } from "../../utils/validation"
+import { totalRoomCharge } from "./../../utils/calculateRoomPrice"
 
 const CheckOutModal = (props) => {
   const { show, handlerModalClose, handlerParentModalClose, booking } = props
@@ -19,6 +21,7 @@ const CheckOutModal = (props) => {
   const isLoading = useSelector(
     (state) => state.receiptReducer.isReceiptLoading
   )
+
   const {
     _id,
     code,
@@ -34,7 +37,8 @@ const CheckOutModal = (props) => {
     totalPrice,
     status,
   } = booking[0]
-  const [newCheckOut, setNewCheckOut] = useState(Date.now())
+
+  const [newCheckOut, setNewCheckOut] = useState(new Date().setHours(12, 0))
 
   const [editBooking, setEditBooking] = useState({
     _id: _id,
@@ -62,26 +66,8 @@ const CheckOutModal = (props) => {
   useEffect(() => {
     const { checkInDate, checkOutDate, deposit, discount } = editBooking
 
-    //Calculator
-    const calculatorDayDiff = () => {
-      const start = moment(checkInDate, "YYYY-MM-DD HH:mm")
-      const end = moment(checkOutDate, "YYYY-MM-DD HH:mm")
-
-      //Difference in number of days
-      const dayDiff =
-        Math.round(moment.duration(end.diff(start)).asDays()) < 1
-          ? 1
-          : Math.round(moment.duration(end.diff(start)).asDays())
-
-      return dayDiff
-    }
-
     const calculatorPrice = () => {
-      const dayDiff = calculatorDayDiff()
-
-      const sumRoomsPrice = rooms
-        .map((item) => item.price)
-        .reduce((prev, curr) => prev + curr, 0)
+      const RoomCharge = totalRoomCharge(rooms, checkInDate, checkOutDate)
 
       const sumServicesPrice = services
         .map((item) => item.price)
@@ -89,8 +75,7 @@ const CheckOutModal = (props) => {
 
       const VAT = 10
       return (
-        (sumRoomsPrice * dayDiff + sumServicesPrice) *
-          (1 + VAT / 100 - discount / 100) -
+        (RoomCharge + sumServicesPrice) * (1 + VAT / 100 - discount / 100) -
         deposit
       ).toFixed()
     }
@@ -108,14 +93,15 @@ const CheckOutModal = (props) => {
   }
 
   const onSubmitCheckOut = () => {
-    console.log(editBooking)
-    dispatch(updateBooking(editBooking))
-    const newReceipt = {
-      ...receipt,
-      paidOut: parseInt(receipt.paidOut),
+    if (numberValidation(receipt.paidOut)) {
+      dispatch(updateBooking(editBooking))
+      const newReceipt = {
+        ...receipt,
+        paidOut: parseInt(receipt.paidOut),
+      }
+      setTimeout(() => dispatch(checkOut(newReceipt)), 3000)
+      resetData()
     }
-    setTimeout(() => dispatch(checkOut(newReceipt)), 3000)
-    resetData()
   }
   const resetData = () => {
     setReceipt({

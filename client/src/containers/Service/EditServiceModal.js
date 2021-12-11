@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Form, Modal, Button, FloatingLabel } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { updateService } from "./../../redux/actions/serviceAction"
+import { nameValidation, numberValidation } from "../../utils/validation"
 
 const EditServiceModal = (props) => {
   const { show, handlerModalClose, service } = props
   const dispatch = useDispatch()
 
   const [editService, setEditService] = useState(service)
-
-  useEffect(() => setEditService(service), [service])
 
   const onChangeNewForm = (event) =>
     setEditService({
@@ -19,9 +18,13 @@ const EditServiceModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    resetEditPostData()
-    console.log(editService)
-    dispatch(updateService(editService))
+    if (
+      nameValidation(editService.name) &&
+      numberValidation(editService.price)
+    ) {
+      resetEditPostData()
+      dispatch(updateService(editService))
+    }
   }
 
   const resetEditPostData = () => {

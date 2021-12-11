@@ -1,10 +1,9 @@
 import * as types from "../constants/userConstant"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { HOST_API_URL, LOCAL_API_URL } from "./../constants/api"
+import { HOST_API_URL } from "./../constants/api"
 
 // READ ALL USER
-
 export const getAllUser = () => {
   return async (dispatch) => {
     try {
@@ -56,7 +55,7 @@ export const updateProfile = (updateUser, id) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
       const response = await axios.put(
-        `${LOCAL_API_URL}/user/update-profile/${id}`,
+        `${HOST_API_URL}/user/update-profile/${id}`,
         updateUser
       )
       if (response.data.success) {
@@ -75,14 +74,13 @@ export const updateProfile = (updateUser, id) => {
   }
 }
 
-//update Change Password
+// Change Password
 export const changePassword = (updateUser, id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
-
       const response = await axios.put(
-        `${LOCAL_API_URL}/user/change-password/${id}`,
+        `${HOST_API_URL}/user/change-password/${id}`,
         updateUser
       )
       if (response.data.success) {

@@ -173,6 +173,9 @@ td {
 .page__body {
   min-height: 390px;
 }
+.modal-95w {
+  max-width: 95%;
+}
 .modal-80w {
   max-width: 80%;
 }
@@ -323,4 +326,35 @@ thead th.descending::after {
   color: #fff;
   background-color: rgb(245, 56, 23);
   border-radius: 50%;
+}
+
+/* Reservation Calendar */
+
+.day-index {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+.page__cal__body {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.page__cal__body thead,
+.page__cal__body thead > tr,
+.page__cal__body th {
+  color: #fff;
+  position: sticky;
+  top: 0;
+}
+
+.page__cal__body th {
+  background-color: #0066ff;
+}
+
+.page__cal__body table,
+.page__cal__body th,
+.page__cal__body td {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
 }

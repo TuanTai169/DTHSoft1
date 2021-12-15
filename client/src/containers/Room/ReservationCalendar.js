@@ -166,9 +166,6 @@ const ReservationCalendar = (props) => {
                     value={roomType}
                     onChange={(e) => setRoomType(e.target.value)}
                   >
-                    {/* <option className="d-none" value="">
-                      Select Type...
-                    </option> */}
                     <option value="ALL">ALL</option>
                     <option value="SINGLE">SINGLE</option>
                     <option value="DOUBLE">DOUBLE</option>

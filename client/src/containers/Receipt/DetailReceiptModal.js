@@ -142,7 +142,7 @@ function DetailReceiptModal(props) {
                 <div className="form-label">
                   <h5>Room</h5>
                   <p>
-                    Price (USD):{" "}
+                    Room Price (USD):{" "}
                     <strong style={{ color: "red" }}>
                       {booking.roomCharge}
                     </strong>
@@ -151,20 +151,23 @@ function DetailReceiptModal(props) {
                 <RoomForm rooms={booking.rooms} />
               </Form.Group>
             </Row>
-            <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridService">
-                <div className="form-label">
-                  <h5>Service</h5>
-                  <p>
-                    Price (USD):{" "}
-                    <strong style={{ color: "red" }}>
-                      {booking.serviceCharge}
-                    </strong>
-                  </p>
-                </div>
-                <ServiceForm services={booking.services} />
-              </Form.Group>
-            </Row>
+
+            {receipt.booking.services.length > 0 && (
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridService">
+                  <div className="form-label">
+                    <h5>Service</h5>
+                    <p>
+                      Service Price (USD):{" "}
+                      <strong style={{ color: "red" }}>
+                        {booking.serviceCharge}
+                      </strong>
+                    </p>
+                  </div>
+                  <ServiceForm services={booking.services} />
+                </Form.Group>
+              </Row>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar>

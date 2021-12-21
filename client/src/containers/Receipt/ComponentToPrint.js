@@ -112,6 +112,44 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
               <thead>{renderHead}</thead>
               <tbody>{roomContent}</tbody>
             </Table>
+            {/*receipt.booking.earlyCheckIn > 0 && (*/
+              <Row>
+              <Col sm={10}>
+                <p>RoomCharge (USD): </p>
+              </Col>
+              <Col>
+                <p style={{ color: "red" }}>
+                  {receipt.booking.roomCharge}
+                </p>
+              </Col>
+            </Row>
+            }
+            {/*receipt.booking.earlyCheckIn > 0 && (*/
+              <Row>
+              <Col sm={10}>
+                <p>EarlyCheckIn (USD): </p>
+              </Col>
+              <Col>
+                <p style={{ color: "red" }}>
+                  {receipt.booking.earlyCheckIn}
+                </p>
+              </Col>
+            </Row>
+            }
+
+            {/*receipt.booking.earlyCheckIn > 0 && (*/
+              <Row>
+              <Col sm={10}>
+                LateCheckOut (USD): 
+              </Col>
+              <Col>
+                <p style={{ color: "red" }}>
+                  {receipt.booking.lateCheckOut}
+                </p>
+              </Col>
+            </Row>
+            }
+
             <Row>
               <Col sm={10}>
                 <strong>Amount (USD): </strong>
@@ -139,6 +177,7 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
                 <p style={{ fontWeight: "bold" }}>Service</p>
               </div>
               <div>{content}</div>
+              
               <Row>
                 <Col sm={10}>
                   <strong>Amount (USD): </strong>
@@ -160,10 +199,10 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
             </Col>
             <Col>
               <strong>
-                {(
+                {Math.ceil(
                   receipt.booking.totalPrice /
                   (1 + receipt.booking.VAT / 100)
-                ).toFixed()}
+                )}
               </strong>
             </Col>
           </Row>
@@ -199,6 +238,14 @@ export const ComponentToPrint = React.forwardRef((props, ref) => {
           </div> */}
         </div>
         <div className="mb-3" style={{ borderBottom: "1px solid #bbb" }}>
+        <Row>
+            <Col sm={10}>
+              <strong>Deposit: </strong>
+            </Col>
+            <Col>
+              <strong style={{ color: "red" }}>{receipt.booking.deposit}</strong>
+            </Col>
+          </Row>
           <Row>
             <Col sm={10}>
               <strong>Cash: </strong>

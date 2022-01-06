@@ -52,11 +52,13 @@ router.post("/login", async (req, res) => {
 
     //All good
     //Return Token JWT
+
     const accessToken = jwt.sign(
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     )
+
     res.json({
       success: true,
       message: "User logged in successfully",

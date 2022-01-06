@@ -299,6 +299,7 @@ router.get("/statistic", verifyToken, async (req, res) => {
     })
 
     // FOREACH
+
     _.forEach(monthNames, (value) => {
       if (groupByMonth[value] !== undefined) {
         let newItem = { month: value, amount: groupByMonth[value].length }
@@ -321,6 +322,7 @@ router.get("/statistic", verifyToken, async (req, res) => {
     })
 
     // USER
+
     _.forEach(receipts, (item) => {
       let newItem = {
         name: item.booking.customer.name,

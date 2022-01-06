@@ -25,7 +25,7 @@
     "icon": "bx bx-gift"
   },
   {
-    "display_name": "Receipts",
+    "display_name": "Income management",
     "route": "/receipts",
     "icon": "bx bx-cart"
   },

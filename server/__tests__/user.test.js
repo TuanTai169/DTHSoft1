@@ -8,7 +8,7 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
-  const user = { email: "admin@gmail.com", password: "12345678" }
+  const user = { email: "admin@gmail.com", password: "TuanTai@412" }
   const response = await request(app).post("/api/auth/login").send(user)
   token = response.body.accessToken
 })

@@ -97,18 +97,16 @@ exports.getNumberOfDays = (checkInDate, checkOutDate) => {
 exports.getNumberOfHour = (checkInDate, checkOutDate) => {
   const start = moment(checkInDate, "YYYY-MM-DD HH:mm")
   const end = moment(checkOutDate, "YYYY-MM-DD HH:mm")
-  //Difference in number of days
   const hourDiff = moment.duration(end.diff(start)).asHours()
   return hourDiff
 }
 
 exports.earlyCheckIn = (checkInDate, roomCharge) => {
   let early = {}
-
   const start = moment(checkInDate, "YYYY-MM-DD HH:mm")
   const end = moment(checkInDate, "YYYY-MM-DD").set({
     hours: 12,
-    minutes: 00,
+    minutes: 0,
   })
 
   //Difference in number of days
@@ -129,7 +127,6 @@ exports.earlyCheckIn = (checkInDate, roomCharge) => {
 
 exports.lateCheckOut = (checkOutDate, roomCharge) => {
   let late = {}
-
   const start = moment(checkOutDate, "YYYY-MM-DD").set({
     hours: 12,
     minutes: 0,

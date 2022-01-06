@@ -8,7 +8,7 @@ beforeAll(() => {
 // Login success
 describe("Login success", () => {
   it("POST /api/auth/login", async () => {
-    const user = { email: "admin@gmail.com", password: "12345678" }
+    const user = { email: "admin@gmail.com", password: "TuanTai@412" }
 
     await request(app)
       .post("/api/auth/login")
@@ -21,6 +21,7 @@ describe("Login success", () => {
       })
   })
 })
+
 // Incorrect email
 describe("Incorrect email", () => {
   test("POST /api/auth/login", async () => {

@@ -28,7 +28,6 @@ const sendEmail = async (options) => {
     tls: {
       rejectUnauthorized: false,
     },
-    // Active in gmail "less secure app" option
   })
   // Define the email options
   const mailOptions = {

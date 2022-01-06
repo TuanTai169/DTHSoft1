@@ -8,6 +8,7 @@ export const getAllUser = () => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
+
       const response = await axios.get(`${HOST_API_URL}/user`)
       if (response.data.success) {
         dispatch({
@@ -54,6 +55,7 @@ export const updateProfile = (updateUser, id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
+
       const response = await axios.put(
         `${HOST_API_URL}/user/update-profile/${id}`,
         updateUser
@@ -104,6 +106,7 @@ export const deleteUser = (id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
+
       const response = await axios.put(`${HOST_API_URL}/user/delete/${id}`)
       if (response.data.success) {
         dispatch({
@@ -126,6 +129,7 @@ export const addUser = (newUser) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.SET_USER_LOADING, payload: true })
+
       const response = await axios.post(`${HOST_API_URL}/user`, newUser)
       if (response.data.success) {
         dispatch({
